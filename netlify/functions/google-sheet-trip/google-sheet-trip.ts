@@ -17,7 +17,7 @@ export const handler: Handler = async (_event, _context) => {
   const jwt = new google.auth.JWT({
     email: process.env.GOOGLE_CLIENT_EMAIL!,
     scopes: 'https://www.googleapis.com/auth/spreadsheets',
-    key: process.env.GOOGLE_PRIVATE_KEY!,
+    key: Buffer.from(process.env.ENCODED_GOOGLE_PRIVATE_KEY!, 'base64').toString('utf8').split('\\n').join('\n'),
   });
 
   await jwt.authorize();
