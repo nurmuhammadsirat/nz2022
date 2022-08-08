@@ -1,0 +1,64 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "extends": ["eslint:recommended", "eslint-config-prettier", "plugin:react/recommended", "plugin:import/typescript"],
+  "env": {
+    "es6": true,
+    "jest": true,
+    "browser": true,
+    "commonjs": true,
+    "node": true
+  },
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "import"],
+  "rules": {
+    "no-console": "error",
+    "no-alert": "error",
+    "arrow-parens": ["error", "as-needed"],
+    "prefer-const": "error",
+    "max-depth": ["error", 3],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-explicit-any": ["error"],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "import/no-extraneous-dependencies": "error",
+    "import/no-unresolved": "error",
+    "react/jsx-handler-names": ["error", { "eventHandlerPrefix": "handle", "eventHandlerPropPrefix": "on" }],
+    "react/sort-comp": [
+      "error",
+      { "order": ["type-annotations", "static-methods", "lifecycle", "/^handle.+$/", "everything-else", "render"] }
+    ],
+    "react/prefer-stateless-function": "error",
+    "react/boolean-prop-naming": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "react/prop-types": "off",
+    "no-magic-numbers": ["off", { "ignore": [-1, 0, 1, 2, 30, 60, 100, 1000], "ignoreArrayIndexes": true }]
+  },
+  "globals": {
+    "__webpack_nonce__": "writable"
+  }
+}
