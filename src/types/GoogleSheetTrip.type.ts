@@ -28,7 +28,7 @@ export type Vehicle = {
   currency: string;
 };
 
-export type GoogleSheetTrip = {
+export type GoogleSheetTripData = {
   accomodations: Accomodation[];
   vehicles: Vehicle[];
 };

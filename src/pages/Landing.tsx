@@ -1,37 +1,36 @@
-import axios, { AxiosResponse } from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Box from '../components/Box';
 import Flex from '../components/Flex';
-import { Accomodation, GoogleSheetTrip, Vehicle } from '../types/GoogleSheetTrip.type';
+import { useGoogleSheetTrip } from '../hooks';
+import { Accomodation, GoogleSheetTripData, Vehicle } from '../types/GoogleSheetTrip.type';
 
 const Landing = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-  useEffect(() => {
-    axios.get('/.netlify/functions/google-sheet-trip').then((resp: AxiosResponse<GoogleSheetTrip>) => {
-      setAccomodations(resp.data.accomodations);
-      setVehicles(resp.data.vehicles);
-    });
-  }, []);
+  const { refetch } = useGoogleSheetTrip({
+    enabled: false,
+    onSuccess: (data: GoogleSheetTripData) => {
+      setAccomodations(data.accomodations);
+      setVehicles(data.vehicles);
+    },
+  });
 
   return (
-    <ViewContainer justifyContent="center" alignItems="center">
-      <Content>Accomodations {JSON.stringify(accomodations)}!</Content>
-      <Content>Vehicles {JSON.stringify(vehicles)}!</Content>
+    <ViewContainer>
+      <Box>Accomodations {JSON.stringify(accomodations)}</Box>
+      <Box>Vehicles {JSON.stringify(vehicles)}</Box>
+      <Flex justifyContent="center" alignItems="center">
+        <button onClick={() => refetch()}>Load trip</button>
+      </Flex>
     </ViewContainer>
   );
 };
 
-const ViewContainer = styled(Flex)`
+const ViewContainer = styled.div`
   width: 100vw;
   height: 100vh;
-`;
-
-const Content = styled(Box)`
-  height: 100%;
-  width: 60%;
 `;
 
 export default Landing;
