@@ -2,7 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Landing from './pages/Landing';
+import { LandingPage } from './pages';
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -12,7 +12,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Landing />} />
+            <Route path="/" element={<LandingPage />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>
