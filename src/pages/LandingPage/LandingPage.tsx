@@ -88,7 +88,7 @@ const LandingPage = () => {
       });
 
       return (
-        <Flex key={date} m="10px 20px" w="100%" onClick={() => handleClick(date)}>
+        <Flex key={date} m="10px 20px" onClick={() => handleClick(date)}>
           <Flex h="100%" w="90px">
             <DateBubble date={date} />
           </Flex>
@@ -100,7 +100,7 @@ const LandingPage = () => {
 
   return (
     <ViewContainer>
-      <Flex w="100%" h={headerHeight} flexDirection="column" justifyContent="center" backgroundColor={Colors.teal4}>
+      <Flex h={headerHeight} flexDirection="column" justifyContent="center" backgroundColor={Colors.teal4}>
         <Text m="0 auto" fontSize="40px" color={Colors.teal1}>
           New Zealand 2022
         </Text>

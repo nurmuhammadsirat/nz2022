@@ -1,6 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
-import { BoxShadow } from '../../styles';
 import { Accomodation } from '../../types/GoogleSheetTrip.type';
 
 type Props = {
@@ -19,7 +18,7 @@ const QuickInfoCard = ({ accomodation }: Props) => {
   );
 
   return (
-    <Box ml="10px" mb="10px" p="10px" boxShadow={BoxShadow.light} w="calc(100% - 140px)" minH="200px">
+    <Box p="8px" minH="200px">
       {accomodation && renderContent(accomodation)}
     </Box>
   );
