@@ -73,12 +73,16 @@ const LandingPage = () => {
     }
 
     return DATES.map((date, index) => {
-      const accomodation = accomodations.find(acc => {
+      const checkInAccomodation = accomodations.find(acc => {
         const currentDate = Date.parse(date);
         const checkInDate = Date.parse(acc.checkIn);
         const checkOutDate = Date.parse(acc.checkOut);
 
         return currentDate >= checkInDate && currentDate < checkOutDate;
+      });
+
+      const checkOutAccomodation = accomodations.find(acc => {
+        return date === acc.checkOut;
       });
 
       const bgColor = index % 2 === 0 ? Colors.cardBackground : Colors.altCardBackground;
@@ -88,7 +92,11 @@ const LandingPage = () => {
           <Flex flexDirection="column" justifyContent="space-between" h="100%" w="90px">
             <DateBubble date={date} />
           </Flex>
-          <QuickInfoCard accomodation={accomodation} />
+          <QuickInfoCard
+            date={date}
+            checkInAccomodation={checkInAccomodation}
+            checkOutAccomodation={checkOutAccomodation}
+          />
         </Flex>
       );
     });

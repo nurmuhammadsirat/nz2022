@@ -6,4 +6,9 @@ export default {
   dateBackground: '#11999E',
   infoTitle: '#9C9EFE',
   border: '#DFDFDE',
+  trafficLight: {
+    red: '#CC3232',
+    amber: '#E7B416',
+    green: '#2DC937',
+  },
 };
