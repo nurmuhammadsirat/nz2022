@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Button, Center, Flex, Spinner, Text } from '@chakra-ui/react';
-import { check } from 'prettier';
+import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useGoogleSheetTrip } from '../../hooks';
-import { BoxShadow, Colors } from '../../styles';
+import { Colors } from '../../styles';
 import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types/GoogleSheetTrip.type';
 import DateBubble from './DateBubble';
 import Header from './Header';
@@ -42,6 +40,8 @@ const DATES = [
 
 const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
+  // TODO this var to be used...
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   const headerHeight = '150px';
