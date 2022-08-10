@@ -1,6 +1,9 @@
 export default {
-  teal1: '#E4F9F5',
-  teal2: '#30E3CA',
-  teal3: '#11999E',
-  teal4: '#40514E',
+  headerBackground: '#371B58',
+  headerText: '#E4F9F5',
+  cardBackground: '#FFFFFF',
+  altCardBackground: '#EAF6F6',
+  dateBackground: '#11999E',
+  infoTitle: '#9C9EFE',
+  border: '#DFDFDE',
 };

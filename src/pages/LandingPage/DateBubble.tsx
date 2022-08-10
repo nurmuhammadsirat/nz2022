@@ -12,7 +12,7 @@ const DateBubble = ({ date }: Props) => {
       h="90px"
       w="90px"
       borderRadius="45px"
-      backgroundColor={Colors.teal3}
+      backgroundColor={Colors.dateBackground}
       flexDirection="column"
       justifyContent="center"
     >

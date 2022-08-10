@@ -7,6 +7,7 @@ import { useGoogleSheetTrip } from '../../hooks';
 import { BoxShadow, Colors } from '../../styles';
 import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types/GoogleSheetTrip.type';
 import DateBubble from './DateBubble';
+import Header from './Header';
 import QuickInfoCard from './QuickInfoCard';
 
 const DATES = [
@@ -43,7 +44,7 @@ const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-  const headerHeight = '200px';
+  const headerHeight = '150px';
 
   const { isFetching, error } = useGoogleSheetTrip({
     enabled: true,
@@ -71,25 +72,20 @@ const LandingPage = () => {
       return <Center h={`calc(100vh - ${headerHeight})`}>An error occurred when loading data.</Center>;
     }
 
-    return DATES.map(date => {
+    return DATES.map((date, index) => {
       const accomodation = accomodations.find(acc => {
         const currentDate = Date.parse(date);
         const checkInDate = Date.parse(acc.checkIn);
         const checkOutDate = Date.parse(acc.checkOut);
 
-        // eslint-disable-next-line no-console
-        console.log('date currentDate', date, currentDate);
-        // eslint-disable-next-line no-console
-        console.log('acc.checkIn checkInDate', acc.checkIn, checkInDate);
-        // eslint-disable-next-line no-console
-        console.log('acc.checkOut checkOutDate', acc.checkOut, checkOutDate);
-
         return currentDate >= checkInDate && currentDate < checkOutDate;
       });
 
+      const bgColor = index % 2 === 0 ? Colors.cardBackground : Colors.altCardBackground;
+
       return (
-        <Flex key={date} m="10px 20px" onClick={() => handleClick(date)}>
-          <Flex h="100%" w="90px">
+        <Flex key={date} p="10px 20px" onClick={() => handleClick(date)} backgroundColor={bgColor}>
+          <Flex flexDirection="column" justifyContent="space-between" h="100%" w="90px">
             <DateBubble date={date} />
           </Flex>
           <QuickInfoCard accomodation={accomodation} />
@@ -100,14 +96,7 @@ const LandingPage = () => {
 
   return (
     <ViewContainer>
-      <Flex h={headerHeight} flexDirection="column" justifyContent="center" backgroundColor={Colors.teal4}>
-        <Text m="0 auto" fontSize="40px" color={Colors.teal1}>
-          New Zealand 2022
-        </Text>
-        <Text m="0 auto" fontSize="20px" color={Colors.teal1}>
-          Nov 30 - Dec 26
-        </Text>
-      </Flex>
+      <Header height={headerHeight} />
       {renderedContent}
     </ViewContainer>
   );
