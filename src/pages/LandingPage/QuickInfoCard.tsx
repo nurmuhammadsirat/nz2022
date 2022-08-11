@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Link, Text } from '@chakra-ui/react';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useMemo } from 'react';
 import { Colors } from '../../styles';
 import { Accomodation } from '../../types/GoogleSheetTrip.type';
@@ -33,22 +34,31 @@ const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
 
   const accomodationInfo = useCallback(
     (acc: Accomodation, type: string) => (
-      <Flex justifyContent="space-between">
-        <Box w="200px" h="75px">
-          <Text as="i" fontSize="sm" fontWeight="bold" color={ACCOMTYPE[type].color}>
-            {ACCOMTYPE[type].name}
-          </Text>
-          <Text>{acc.name}</Text>
-        </Box>
-        {type !== 'current' && (
-          <Box w="70px">
+      <>
+        <Flex justifyContent="space-between">
+          <Box w="200px" maxH="75px">
             <Text as="i" fontSize="sm" fontWeight="bold" color={ACCOMTYPE[type].color}>
-              Time
+              {ACCOMTYPE[type].name}
             </Text>
-            <Text>{ACCOMTYPE[type].time}</Text>
+            <Text>{acc.name}</Text>
+          </Box>
+          {type !== 'current' && (
+            <Box w="70px">
+              <Text as="i" fontSize="sm" fontWeight="bold" color={ACCOMTYPE[type].color}>
+                Time
+              </Text>
+              <Text>{ACCOMTYPE[type].time}</Text>
+            </Box>
+          )}
+        </Flex>
+        {type !== 'checkout' && (
+          <Box w="100%" textAlign="right" color={Colors.link} fontSize="xs">
+            <Link href={acc.googleMapsUrl} isExternal>
+              Google Maps <FontAwesomeIcon icon={faLocationDot} />
+            </Link>
           </Box>
         )}
-      </Flex>
+      </>
     ),
     [],
   );

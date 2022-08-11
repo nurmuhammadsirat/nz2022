@@ -11,4 +11,5 @@ export default {
     amber: '#E7B416',
     green: '#2DC937',
   },
+  link: '#7F5283',
 };
