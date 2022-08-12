@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types/GoogleSheetTrip.type';
-import DateBubble from './DateBubble';
 import Header from './Header';
 import QuickInfoCard from './QuickInfoCard';
 
@@ -54,11 +53,6 @@ const LandingPage = () => {
     },
   });
 
-  const handleClick = (date: string) => {
-    // eslint-disable-next-line no-console
-    console.log('clicked', date);
-  };
-
   const renderedContent = useMemo(() => {
     if (isFetching) {
       return (
@@ -72,7 +66,7 @@ const LandingPage = () => {
       return <Center h={`calc(100vh - ${headerHeight})`}>An error occurred when loading data.</Center>;
     }
 
-    return DATES.map((date, index) => {
+    return DATES.map(date => {
       const checkInAccomodation = accomodations.find(acc => {
         const currentDate = Date.parse(date);
         const checkInDate = Date.parse(acc.checkIn);
@@ -85,19 +79,13 @@ const LandingPage = () => {
         return date === acc.checkOut;
       });
 
-      const bgColor = index % 2 === 0 ? Colors.cardBackground : Colors.altCardBackground;
-
       return (
-        <Flex key={date} p="30px 20px" onClick={() => handleClick(date)} backgroundColor={bgColor}>
-          <Flex flexDirection="column" justifyContent="space-between" h="100%" w="90px">
-            <DateBubble date={date} />
-          </Flex>
-          <QuickInfoCard
-            date={date}
-            checkInAccomodation={checkInAccomodation}
-            checkOutAccomodation={checkOutAccomodation}
-          />
-        </Flex>
+        <QuickInfoCard
+          key={date}
+          date={date}
+          checkInAccomodation={checkInAccomodation}
+          checkOutAccomodation={checkOutAccomodation}
+        />
       );
     });
   }, [accomodations, error, isFetching]);
@@ -105,7 +93,11 @@ const LandingPage = () => {
   return (
     <ViewContainer>
       <Header height={headerHeight} />
-      {renderedContent}
+      <Box p="16px" backgroundColor={Colors.altCardBackground}>
+        <Flex flexDirection="column" gap="16px">
+          {renderedContent}
+        </Flex>
+      </Box>
     </ViewContainer>
   );
 };

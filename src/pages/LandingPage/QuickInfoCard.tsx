@@ -3,8 +3,9 @@ import { faAirbnb, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { faCampground, faCarSide, faEllipsis, faHotel, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useMemo } from 'react';
-import { Colors, Fonts } from '../../styles';
+import { BoxShadow, Colors, Fonts } from '../../styles';
 import { Accomodation } from '../../types/GoogleSheetTrip.type';
+import DateBubble from './DateBubble';
 
 type Props = {
   date: string;
@@ -41,6 +42,11 @@ const iconType: { [key: string]: IconDefinition } = {
 const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Props) => {
   const handleLinkOpen = (url: string) => {
     window.open(url, '_blank')!.focus();
+  };
+
+  const handleClick = (date: string) => {
+    // eslint-disable-next-line no-console
+    console.log('clicked', date);
   };
 
   const isCheckingIn = useMemo(() => date === checkInAccomodation?.checkIn, [checkInAccomodation, date]);
@@ -101,11 +107,30 @@ const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
   }, [checkOutAccomodation, checkInAccomodation]);
 
   return (
-    <Flex flexDirection="column" justifyContent="space-between" gap="10px" pl="15px" minH="250px" w="calc(100% - 90px)">
-      {checkOutAccomodation && accomodationInfo(checkOutAccomodation, 'checkout')}
-      {checkOutAccomodation && checkInAccomodation && drivingInfo()}
-      {checkInAccomodation && isCheckingIn && accomodationInfo(checkInAccomodation, 'checkin')}
-      {checkInAccomodation && !isCheckingIn && accomodationInfo(checkInAccomodation, 'current')}
+    <Flex
+      key={date}
+      p="8px"
+      onClick={() => handleClick(date)}
+      backgroundColor={Colors.cardBackground}
+      borderRadius="8px"
+      boxShadow={BoxShadow.light}
+    >
+      <Flex flexDirection="column" justifyContent="space-between" h="100%" w="90px">
+        <DateBubble date={date} />
+      </Flex>
+      <Flex
+        flexDirection="column"
+        justifyContent="space-between"
+        gap="10px"
+        pl="15px"
+        minH="250px"
+        w="calc(100% - 90px)"
+      >
+        {checkOutAccomodation && accomodationInfo(checkOutAccomodation, 'checkout')}
+        {checkOutAccomodation && checkInAccomodation && drivingInfo()}
+        {checkInAccomodation && isCheckingIn && accomodationInfo(checkInAccomodation, 'checkin')}
+        {checkInAccomodation && !isCheckingIn && accomodationInfo(checkInAccomodation, 'current')}
+      </Flex>
     </Flex>
   );
 };
