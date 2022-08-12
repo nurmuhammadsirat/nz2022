@@ -88,7 +88,7 @@ const LandingPage = () => {
       const bgColor = index % 2 === 0 ? Colors.cardBackground : Colors.altCardBackground;
 
       return (
-        <Flex key={date} p="10px 20px" onClick={() => handleClick(date)} backgroundColor={bgColor}>
+        <Flex key={date} p="30px 20px" onClick={() => handleClick(date)} backgroundColor={bgColor}>
           <Flex flexDirection="column" justifyContent="space-between" h="100%" w="90px">
             <DateBubble date={date} />
           </Flex>

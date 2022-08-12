@@ -1,9 +1,9 @@
 import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
 import { faAirbnb, IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import { faCampground, faHotel, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faCampground, faCarSide, faEllipsis, faHotel, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useMemo } from 'react';
-import { Colors } from '../../styles';
+import { Colors, Fonts } from '../../styles';
 import { Accomodation } from '../../types/GoogleSheetTrip.type';
 
 type Props = {
@@ -53,8 +53,8 @@ const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
             <Text as="i" fontSize="sm" fontWeight="bold" color={ACCOMTYPE[type].color}>
               {ACCOMTYPE[type].name}
             </Text>
-            <Flex justifyContent="space-between">
-              <Text>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text fontFamily={Fonts.noto}>
                 <FontAwesomeIcon icon={iconType[acc.type] || faHotel} /> {acc.name}
               </Text>
               {ACCOMTYPE[type].showIcon && (
@@ -74,9 +74,36 @@ const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
     [],
   );
 
+  const drivingInfo = useCallback(() => {
+    return (
+      <Flex h="40px" w="100%" justifyContent="space-between" alignItems="center" color={Colors.driving}>
+        <Box>
+          <Text as="i" fontWeight="bold">
+            {checkOutAccomodation!.location}
+          </Text>
+        </Box>
+        <Box>
+          <FontAwesomeIcon icon={faEllipsis} />
+        </Box>
+        <Box>
+          <FontAwesomeIcon icon={faCarSide} />
+        </Box>
+        <Box>
+          <FontAwesomeIcon icon={faEllipsis} />
+        </Box>
+        <Box>
+          <Text as="i" fontWeight="bold">
+            {checkInAccomodation!.location}
+          </Text>
+        </Box>
+      </Flex>
+    );
+  }, [checkOutAccomodation, checkInAccomodation]);
+
   return (
-    <Flex flexDirection="column" gap="10px" pl="15px" minH="250px" w="calc(100% - 90px)">
+    <Flex flexDirection="column" justifyContent="space-between" gap="10px" pl="15px" minH="250px" w="calc(100% - 90px)">
       {checkOutAccomodation && accomodationInfo(checkOutAccomodation, 'checkout')}
+      {checkOutAccomodation && checkInAccomodation && drivingInfo()}
       {checkInAccomodation && isCheckingIn && accomodationInfo(checkInAccomodation, 'checkin')}
       {checkInAccomodation && !isCheckingIn && accomodationInfo(checkInAccomodation, 'current')}
     </Flex>

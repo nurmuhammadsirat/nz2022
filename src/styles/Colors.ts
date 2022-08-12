@@ -11,5 +11,6 @@ export default {
     amber: '#E7B416',
     green: '#2DC937',
   },
+  driving: '#11999E',
   link: '#7F5283',
 };
