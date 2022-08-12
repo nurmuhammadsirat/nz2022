@@ -51,7 +51,7 @@ const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
   return (
     <Flex
       key={date}
-      p="8px"
+      p="16px 8px"
       onClick={() => handleClick(date)}
       backgroundColor={Colors.cardBackground}
       borderRadius="8px"
@@ -60,14 +60,7 @@ const QuickInfoCard = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
       <Flex flexDirection="column" justifyContent="space-between" h="100%" w="90px">
         <DateBubble date={date} />
       </Flex>
-      <Flex
-        flexDirection="column"
-        justifyContent="space-between"
-        gap="10px"
-        pl="15px"
-        minH="250px"
-        w="calc(100% - 90px)"
-      >
+      <Flex flexDirection="column" justifyContent="space-between" gap="10px" pl="15px" w="calc(100% - 90px)">
         {checkOutAccomodation && (
           <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
         )}
