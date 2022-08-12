@@ -1,6 +1,5 @@
 import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types/GoogleSheetTrip.type';
@@ -91,21 +90,15 @@ const LandingPage = () => {
   }, [accomodations, error, isFetching]);
 
   return (
-    <ViewContainer>
+    <>
       <Header height={headerHeight} />
       <Box p="16px" backgroundColor={Colors.altCardBackground}>
         <Flex flexDirection="column" gap="16px">
           {renderedContent}
         </Flex>
       </Box>
-    </ViewContainer>
+    </>
   );
 };
-
-const ViewContainer = styled(Box)`
-  width: 100vw;
-  height: 100vh;
-  overflow-y: scroll;
-`;
 
 export default LandingPage;
