@@ -13,7 +13,7 @@ type METADATATYPE = {
     color: string;
     time: string;
     showMapIcon: boolean;
-    showBookingIcon: boolean;
+    showConfirmationId: boolean;
   };
 };
 
@@ -23,21 +23,21 @@ const METADATA: METADATATYPE = {
     color: Colors.trafficLight.red,
     time: '10:00 AM',
     showMapIcon: false,
-    showBookingIcon: false,
+    showConfirmationId: false,
   },
   [AccomodationType.CHECKIN]: {
     name: 'Checking In @ 3:00 pm',
     color: Colors.trafficLight.green,
     time: '3:00 PM',
     showMapIcon: true,
-    showBookingIcon: true,
+    showConfirmationId: true,
   },
   [AccomodationType.CURRENT]: {
     name: 'Currently At',
     color: Colors.trafficLight.amber,
     time: '-',
     showMapIcon: true,
-    showBookingIcon: false,
+    showConfirmationId: false,
   },
 };
 
@@ -58,21 +58,36 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
 
   return (
     <Box w="100%">
-      <Text as="i" fontSize="sm" fontWeight="bold" color={METADATA[type].color}>
-        {METADATA[type].name}
-      </Text>
-      <Text fontFamily={Fonts.noto}>
-        <FontAwesomeIcon icon={iconType[accomodation.type] || faHotel} /> {accomodation.name}
-      </Text>
-      <Flex mt="8px" justifyContent="flex-end" gap="8px">
-        {METADATA[type].showBookingIcon && accomodation.url && (
-          <IconButton
-            w="40px"
-            h="40px"
-            colorScheme="gray"
-            aria-label="Google Maps"
-            icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(accomodation.url)} />}
-          />
+      <Box>
+        <Text as="i" fontSize="sm" fontWeight="bold" color={METADATA[type].color}>
+          {METADATA[type].name}
+        </Text>
+
+        <Text fontFamily={Fonts.noto}>
+          <FontAwesomeIcon icon={iconType[accomodation.type] || faHotel} /> {accomodation.name}
+        </Text>
+      </Box>
+      <Flex
+        justifyContent={METADATA[type].showConfirmationId ? 'space-between' : 'flex-end'}
+        alignItems="center"
+        mt="8px"
+      >
+        {METADATA[type].showConfirmationId && (
+          <Flex alignItems="center" gap="8px">
+            <Box>
+              <Text as="i" fontSize="sm" fontWeight="bold" color={METADATA[type].color}>
+                Confirmation ID
+              </Text>
+              <Text fontSize="sm">{accomodation.confirmationID}</Text>
+            </Box>
+            <IconButton
+              w="40px"
+              h="40px"
+              colorScheme="gray"
+              aria-label="Google Maps"
+              icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(accomodation.url)} />}
+            />
+          </Flex>
         )}
         {METADATA[type].showMapIcon && (
           <IconButton
