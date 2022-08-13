@@ -1,6 +1,6 @@
 import { Flex, Center } from '@chakra-ui/react';
 import React from 'react';
-import { Colors } from '../../styles';
+import { Colors } from '../../../styles';
 
 type Props = {
   date: string;

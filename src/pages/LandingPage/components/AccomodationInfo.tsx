@@ -3,9 +3,9 @@ import { faAirbnb, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { faCampground, faFileLines, faHotel, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Colors, Fonts } from '../../styles';
-import { Accomodation } from '../../types/GoogleSheetTrip.type';
-import { AccomodationType } from '../../types/types';
+import { Colors, Fonts } from '../../../styles';
+import { AccomodationType } from '../../../types';
+import { Accomodation } from '../../../types/GoogleSheetTrip.type';
 
 type METADATATYPE = {
   [key in AccomodationType]: {

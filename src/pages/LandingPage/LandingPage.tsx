@@ -3,8 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types/GoogleSheetTrip.type';
-import Header from './Header';
-import QuickInfoCard from './QuickInfoCard';
+import { Header, QuickInfoCard } from './components';
 
 const DATES = [
   '30-Nov-2022',
