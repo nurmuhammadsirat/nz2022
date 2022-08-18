@@ -3,19 +3,18 @@ import { faEllipsis, faCarSide } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Colors } from '../../../styles';
-import { Accomodation } from '../../../types/GoogleSheetTrip.type';
 
 type Props = {
-  checkInAccomodation: Accomodation;
-  checkOutAccomodation: Accomodation;
+  checkInLocation: string;
+  checkOutLocation: string;
 };
 
-const DrivingInfo = ({ checkInAccomodation, checkOutAccomodation }: Props) => {
+const AccomodationDivider = ({ checkInLocation, checkOutLocation }: Props) => {
   return (
     <Flex h="40px" w="100%" justifyContent="space-between" alignItems="center" color={Colors.driving}>
       <Box>
         <Text as="i" fontWeight="bold">
-          {checkOutAccomodation!.location}
+          {checkInLocation}
         </Text>
       </Box>
       <Box>
@@ -29,11 +28,11 @@ const DrivingInfo = ({ checkInAccomodation, checkOutAccomodation }: Props) => {
       </Box>
       <Box>
         <Text as="i" fontWeight="bold">
-          {checkInAccomodation!.location}
+          {checkOutLocation}
         </Text>
       </Box>
     </Flex>
   );
 };
 
-export default DrivingInfo;
+export default AccomodationDivider;

@@ -2,8 +2,8 @@ import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import { AccomodationType } from '../../../types';
 import { Accomodation } from '../../../types/GoogleSheetTrip.type';
+import AccomodationDivider from './AccomodationDivider';
 import AccomodationInfo from './AccomodationInfo';
-import DrivingInfo from './DrivingInfo';
 
 type Props = {
   date: string;
@@ -20,7 +20,10 @@ const Accomodations = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
         <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
       )}
       {checkOutAccomodation && checkInAccomodation && (
-        <DrivingInfo checkInAccomodation={checkInAccomodation} checkOutAccomodation={checkOutAccomodation} />
+        <AccomodationDivider
+          checkInLocation={checkInAccomodation.location}
+          checkOutLocation={checkOutAccomodation.location}
+        />
       )}
       {checkInAccomodation && isCheckingIn && (
         <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CHECKIN} />

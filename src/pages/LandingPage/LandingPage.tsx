@@ -37,8 +37,6 @@ const DATES = [
 
 const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
-  // TODO this var to be used...
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   const headerHeight = '150px';
@@ -65,28 +63,9 @@ const LandingPage = () => {
     }
 
     return DATES.map(date => {
-      const checkInAccomodation = accomodations.find(acc => {
-        const currentDate = Date.parse(date);
-        const checkInDate = Date.parse(acc.checkIn);
-        const checkOutDate = Date.parse(acc.checkOut);
-
-        return currentDate >= checkInDate && currentDate < checkOutDate;
-      });
-
-      const checkOutAccomodation = accomodations.find(acc => {
-        return date === acc.checkOut;
-      });
-
-      return (
-        <QuickInfoCard
-          key={date}
-          date={date}
-          checkInAccomodation={checkInAccomodation}
-          checkOutAccomodation={checkOutAccomodation}
-        />
-      );
+      return <QuickInfoCard key={date} date={date} vehicles={vehicles} accomodations={accomodations} />;
     });
-  }, [accomodations, error, isFetching]);
+  }, [accomodations, error, isFetching, vehicles]);
 
   return (
     <>
