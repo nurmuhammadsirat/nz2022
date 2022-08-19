@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
 import { BoxShadow, Colors } from '../../../styles';
-import { Accomodation, Vehicle } from '../../../types/GoogleSheetTrip.type';
+import { Accomodation, Vehicle } from '../../../types';
 import Accomodations from './Accomodations';
 import Sidebar from './Sidebar';
 

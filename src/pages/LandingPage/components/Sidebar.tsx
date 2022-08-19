@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { Vehicle } from '../../../types/GoogleSheetTrip.type';
+import { Vehicle } from '../../../types';
 import DateBubble from './DateBubble';
 import VeciclesAndFlight from './VeciclesAndFlight';
 

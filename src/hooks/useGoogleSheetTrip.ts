@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { GoogleSheetTripData } from '../types/GoogleSheetTrip.type';
+import { GoogleSheetTripData } from '../types';
 
 export default (opts = {}) => {
   return useQuery<GoogleSheetTripData>(

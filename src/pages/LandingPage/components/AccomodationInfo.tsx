@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Colors, Fonts } from '../../../styles';
 import { AccomodationType } from '../../../types';
-import { Accomodation } from '../../../types/GoogleSheetTrip.type';
+import { Accomodation } from '../../../types';
 
 type METADATATYPE = {
   [key in AccomodationType]: {

@@ -2,7 +2,7 @@ import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
-import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types/GoogleSheetTrip.type';
+import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types';
 import { Header, QuickInfoCard } from './components';
 
 const DATES = [

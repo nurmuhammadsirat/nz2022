@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import { AccomodationType } from '../../../types';
-import { Accomodation } from '../../../types/GoogleSheetTrip.type';
+import { Accomodation } from '../../../types';
 import AccomodationDivider from './AccomodationDivider';
 import AccomodationInfo from './AccomodationInfo';
 
