@@ -4,6 +4,11 @@ export enum AccomodationType {
   CHECKOUT,
 }
 
+export enum VehicleType {
+  PICKUP,
+  DROPOFF,
+}
+
 export type Accomodation = {
   checkIn: string;
   checkOut: string;
@@ -19,7 +24,7 @@ export type Accomodation = {
 };
 
 export type Vehicle = {
-  name: string;
+  companyName: string;
   confirmationID: string;
   type: string;
   pickUpDate: string;
@@ -32,9 +37,24 @@ export type Vehicle = {
   dropOffGoogleMapsUrl: string;
   cost: string;
   currency: string;
+  url: string;
+};
+
+export type Flight = {
+  bookingNo: string;
+  bookingType: string;
+  departureLocation: string;
+  departureDate: string;
+  departureTime: string;
+  arrivalLocation: string;
+  arrivalDate: string;
+  arrivalTime: string;
+  flightNo: string;
+  flightDuration: string;
 };
 
 export type GoogleSheetTripData = {
   accomodations: Accomodation[];
   vehicles: Vehicle[];
+  flights: Flight[];
 };

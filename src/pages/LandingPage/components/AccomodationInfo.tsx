@@ -84,7 +84,7 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
               w="40px"
               h="40px"
               colorScheme="gray"
-              aria-label="Google Maps"
+              aria-label="PDF"
               icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(accomodation.url)} />}
             />
           </Flex>

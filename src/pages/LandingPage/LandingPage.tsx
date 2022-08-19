@@ -2,7 +2,7 @@ import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
-import { Accomodation, GoogleSheetTripData, Vehicle } from '../../types';
+import { Accomodation, Flight, GoogleSheetTripData, Vehicle } from '../../types';
 import { Header, QuickInfoCard } from './components';
 
 const DATES = [
@@ -38,6 +38,7 @@ const DATES = [
 const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [flights, setFlights] = useState<Flight[]>([]);
 
   const headerHeight = '150px';
 
@@ -46,6 +47,7 @@ const LandingPage = () => {
     onSuccess: (data: GoogleSheetTripData) => {
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);
+      setFlights(data.flights);
     },
   });
 
@@ -63,9 +65,11 @@ const LandingPage = () => {
     }
 
     return DATES.map(date => {
-      return <QuickInfoCard key={date} date={date} vehicles={vehicles} accomodations={accomodations} />;
+      return (
+        <QuickInfoCard key={date} date={date} vehicles={vehicles} accomodations={accomodations} flights={flights} />
+      );
     });
-  }, [accomodations, error, isFetching, vehicles]);
+  }, [accomodations, error, flights, isFetching, vehicles]);
 
   return (
     <>

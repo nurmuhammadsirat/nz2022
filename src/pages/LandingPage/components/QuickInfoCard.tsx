@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
-import React, { useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { BoxShadow, Colors } from '../../../styles';
-import { Accomodation, Vehicle } from '../../../types';
+import { Accomodation, Flight, Vehicle } from '../../../types';
 import Accomodations from './Accomodations';
 import Sidebar from './Sidebar';
 
@@ -9,33 +9,28 @@ type Props = {
   date: string;
   vehicles: Vehicle[];
   accomodations: Accomodation[];
+  flights: Flight[];
 };
 
-const QuickInfoCard = ({ date, vehicles, accomodations }: Props) => {
-  const getCheckInAccomodation = useCallback(
-    (date: string) => {
-      return accomodations.find(acc => {
-        const currentDate = Date.parse(date);
-        const checkInDate = Date.parse(acc.checkIn);
-        const checkOutDate = Date.parse(acc.checkOut);
+const QuickInfoCard = ({ date, vehicles, accomodations, flights }: Props) => {
+  const checkInAccomodation = useMemo(() => {
+    return accomodations.find(acc => {
+      const currentDate = Date.parse(date);
+      const checkInDate = Date.parse(acc.checkIn);
+      const checkOutDate = Date.parse(acc.checkOut);
 
-        return currentDate >= checkInDate && currentDate < checkOutDate;
-      });
-    },
-    [accomodations],
-  );
+      return currentDate >= checkInDate && currentDate < checkOutDate;
+    });
+  }, [accomodations, date]);
 
-  const getCheckOutAccomodation = useCallback(
-    (date: string) => {
-      return accomodations.find(acc => {
-        const currentDate = Date.parse(date);
-        const checkOutDate = Date.parse(acc.checkOut);
+  const checkOutAccomodation = useMemo(() => {
+    return accomodations.find(acc => {
+      const currentDate = Date.parse(date);
+      const checkOutDate = Date.parse(acc.checkOut);
 
-        return currentDate === checkOutDate;
-      });
-    },
-    [accomodations],
-  );
+      return currentDate === checkOutDate;
+    });
+  }, [accomodations, date]);
 
   return (
     <Flex
@@ -45,11 +40,11 @@ const QuickInfoCard = ({ date, vehicles, accomodations }: Props) => {
       borderRadius="8px"
       boxShadow={BoxShadow.light}
     >
-      <Sidebar date={date} vehicles={vehicles} />
+      <Sidebar date={date} vehicles={vehicles} flights={flights} />
       <Accomodations
         date={date}
-        checkInAccomodation={getCheckInAccomodation(date)}
-        checkOutAccomodation={getCheckOutAccomodation(date)}
+        checkInAccomodation={checkInAccomodation}
+        checkOutAccomodation={checkOutAccomodation}
       />
     </Flex>
   );
