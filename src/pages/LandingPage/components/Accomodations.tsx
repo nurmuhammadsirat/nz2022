@@ -15,7 +15,7 @@ const Accomodations = ({ date, checkInAccomodation, checkOutAccomodation }: Prop
   const isCheckingIn = useMemo(() => date === checkInAccomodation?.checkIn, [checkInAccomodation, date]);
 
   return (
-    <Flex flexDirection="column" justifyContent="space-between" gap="10px" pl="15px" w="calc(100% - 90px)">
+    <Flex flexDirection="column" justifyContent="space-between" gap="10px" pl="15px" w="calc(100% - 90px)" h="100%">
       {checkOutAccomodation && (
         <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
       )}

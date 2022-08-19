@@ -7,36 +7,32 @@ import { Colors, Fonts } from '../../../styles';
 import { AccomodationType } from '../../../types';
 import { Accomodation } from '../../../types';
 
-type METADATATYPE = {
+type AccomodationMetadataType = {
   [key in AccomodationType]: {
-    name: string;
+    header: string;
     color: string;
     time: string;
-    showMapIcon: boolean;
     showConfirmationId: boolean;
   };
 };
 
-const METADATA: METADATATYPE = {
+const AccomodationMetadata: AccomodationMetadataType = {
   [AccomodationType.CHECKOUT]: {
-    name: 'Checking Out @ 10:00 am',
+    header: 'Checking Out @ 10:00 am',
     color: Colors.trafficLight.red,
     time: '10:00 AM',
-    showMapIcon: false,
     showConfirmationId: false,
   },
   [AccomodationType.CHECKIN]: {
-    name: 'Checking In @ 3:00 pm',
+    header: 'Checking In @ 3:00 pm',
     color: Colors.trafficLight.green,
     time: '3:00 PM',
-    showMapIcon: true,
     showConfirmationId: true,
   },
   [AccomodationType.CURRENT]: {
-    name: 'Currently At',
+    header: 'Currently At',
     color: Colors.trafficLight.amber,
     time: '-',
-    showMapIcon: true,
     showConfirmationId: false,
   },
 };
@@ -56,26 +52,42 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
     window.open(url, '_blank')!.focus();
   };
 
+  const isCurrentlyAt = type === AccomodationType.CURRENT;
+  const isCheckingIn = type === AccomodationType.CHECKIN;
+
   return (
     <Box w="100%">
-      <Box>
-        <Text as="i" fontSize="sm" fontWeight="bold" color={METADATA[type].color}>
-          {METADATA[type].name}
-        </Text>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Box>
+          <Text as="i" fontSize="sm" fontWeight="bold" color={AccomodationMetadata[type].color}>
+            {AccomodationMetadata[type].header}
+          </Text>
 
-        <Text fontFamily={Fonts.noto}>
-          <FontAwesomeIcon icon={iconType[accomodation.type] || faHotel} /> {accomodation.name}
-        </Text>
-      </Box>
+          <Text fontFamily={Fonts.noto}>
+            <FontAwesomeIcon icon={iconType[accomodation.type] || faHotel} /> {accomodation.name}
+          </Text>
+        </Box>
+        {isCurrentlyAt && (
+          <IconButton
+            w="40px"
+            h="40px"
+            colorScheme="blue"
+            aria-label="Google Maps"
+            icon={
+              <FontAwesomeIcon icon={faMapLocationDot} onClick={() => handleLinkOpen(accomodation.googleMapsUrl)} />
+            }
+          />
+        )}
+      </Flex>
       <Flex
-        justifyContent={METADATA[type].showConfirmationId ? 'space-between' : 'flex-end'}
+        justifyContent={AccomodationMetadata[type].showConfirmationId ? 'space-between' : 'flex-end'}
         alignItems="center"
         mt="8px"
       >
-        {METADATA[type].showConfirmationId && (
+        {AccomodationMetadata[type].showConfirmationId && (
           <Flex alignItems="center" gap="8px">
             <Box>
-              <Text as="i" fontSize="sm" fontWeight="bold" color={METADATA[type].color}>
+              <Text as="i" fontSize="sm" fontWeight="bold" color={AccomodationMetadata[type].color}>
                 Confirmation ID
               </Text>
               <Text fontSize="sm">{accomodation.confirmationID}</Text>
@@ -89,7 +101,7 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
             />
           </Flex>
         )}
-        {METADATA[type].showMapIcon && (
+        {isCheckingIn && (
           <IconButton
             w="40px"
             h="40px"
