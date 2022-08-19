@@ -15,6 +15,7 @@ const sheetMetaData = {
   spreadsheetId: '1s6PXdY6Qw4sEHBfTZH_xdXcolmzjnrbVAFhqozP6zmw',
   accomodationRange: 'Accomodation!A1:L13',
   vehicleRange: 'Vehicle!A1:N4',
+  flightRange: 'Flight!A1:J5',
 };
 
 const authProps = {
@@ -29,7 +30,7 @@ export const handler: Handler = async (_event, _context) => {
   await jwt.authorize();
   google.options({ auth: jwt });
   const sheets = google.sheets('v4');
-  const [accomodationRows, vehicleRows] = await Promise.all([
+  const [accomodationRows, vehicleRows, flightRows] = await Promise.all([
     (
       await sheets.spreadsheets.values.get({
         spreadsheetId: sheetMetaData.spreadsheetId,
@@ -42,10 +43,17 @@ export const handler: Handler = async (_event, _context) => {
         range: sheetMetaData.vehicleRange,
       })
     ).data.values,
+    (
+      await sheets.spreadsheets.values.get({
+        spreadsheetId: sheetMetaData.spreadsheetId,
+        range: sheetMetaData.flightRange,
+      })
+    ).data.values,
   ]);
 
   const accomodationHeaders = accomodationRows?.shift()?.map(header => camelize(header));
   const vehicleHeaders = vehicleRows?.shift()?.map(header => camelize(header));
+  const flightHeaders = flightRows?.shift()?.map(header => camelize(header));
 
   const accomodations = accomodationRows?.map(row => {
     return accomodationHeaders?.reduce(toObject(row), {});
@@ -55,9 +63,13 @@ export const handler: Handler = async (_event, _context) => {
     return vehicleHeaders?.reduce(toObject(row), {});
   });
 
+  const flights = flightRows?.map(row => {
+    return flightHeaders?.reduce(toObject(row), {});
+  });
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ accomodations, vehicles }),
+    body: JSON.stringify({ accomodations, vehicles, flights }),
     headers: {
       'Content-Type': 'application/json',
     },
