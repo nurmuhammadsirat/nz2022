@@ -15,7 +15,7 @@ const sheetMetaData = {
   spreadsheetId: '1s6PXdY6Qw4sEHBfTZH_xdXcolmzjnrbVAFhqozP6zmw',
   accomodationRange: 'Accomodation!A1:L13',
   vehicleRange: 'Vehicle!A1:N4',
-  flightRange: 'Flight!A1:J5',
+  flightRange: 'Flight!A1:K5',
 };
 
 const authProps = {
