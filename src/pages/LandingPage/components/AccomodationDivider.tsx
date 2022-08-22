@@ -14,7 +14,7 @@ const AccomodationDivider = ({ checkInLocation, checkOutLocation }: Props) => {
     <Flex h="40px" w="100%" justifyContent="space-between" alignItems="center" color={Colors.driving}>
       <Box>
         <Text as="i" fontWeight="bold">
-          {checkInLocation}
+          {checkOutLocation}
         </Text>
       </Box>
       <Box>
@@ -28,7 +28,7 @@ const AccomodationDivider = ({ checkInLocation, checkOutLocation }: Props) => {
       </Box>
       <Box>
         <Text as="i" fontWeight="bold">
-          {checkOutLocation}
+          {checkInLocation}
         </Text>
       </Box>
     </Flex>
