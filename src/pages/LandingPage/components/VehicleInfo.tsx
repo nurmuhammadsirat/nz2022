@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { faMapLocationDot, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useCallback } from 'react';
 import suvAce from '../../../assets/ace-intermediate-suv.jpg';
 import suvHertz from '../../../assets/hertz-intermediate-suv.jpg';
 import campervan from '../../../assets/maui-4-berth-beach.jpg';
@@ -26,18 +26,18 @@ type Props = {
   isPickingUpOrDroppingOffVehicleToday: boolean;
 };
 
-const vehicleMetadata: { [key: string]: { [key: string]: string } } = {
+const vehicleImage: { [key: string]: { [key: string]: string } } = {
   'Intermediate SUV AWD': {
     src: suvAce,
-    m: '',
+    margin: '',
   },
   'Beach 4-Berth': {
     src: campervan,
-    m: '12px 0',
+    margin: '12px 0',
   },
   'Intermediate SUV 2WD Group I IFAR': {
     src: suvHertz,
-    m: '',
+    margin: '',
   },
 };
 
@@ -67,17 +67,26 @@ const vehicleTypes: {
 };
 
 const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Props) => {
-  const img = vehicleMetadata[vehicle.type];
+  const img = vehicleImage[vehicle.type];
 
   const handleLinkOpen = (url: string) => {
     window.open(url, '_blank')!.focus();
   };
 
+  const headerTitle = useCallback(
+    (title: string) => (
+      <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
+        {title}
+      </Text>
+    ),
+    [],
+  );
+
+  const headerValue = useCallback((title: string) => <Text fontSize="sm">{title}</Text>, []);
+
   const CompanyName = (
     <Box mb="8px">
-      <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-        Company Name
-      </Text>
+      {headerTitle('Company Name')}
       <Text fontSize="sm">{vehicle.companyName}</Text>
     </Box>
   );
@@ -85,10 +94,8 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
   const PickUpLocation = (
     <Flex justifyContent="space-between" alignItems="center">
       <Box>
-        <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-          {vehicleTypes[type].locationTitle}
-        </Text>
-        <Text fontSize="sm">{vehicleTypes[type].locationAddress(vehicle)}</Text>
+        {headerTitle(vehicleTypes[type].locationTitle)}
+        {headerValue(vehicleTypes[type].locationAddress(vehicle))}
       </Box>
       <IconButton
         w="40px"
@@ -107,16 +114,17 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
 
   const PickUpTime = (
     <Box>
-      <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-        {vehicleTypes[type].timeTitle}
-      </Text>
-      <Text fontSize="sm">{vehicleTypes[type].time(vehicle)}</Text>
+      {headerTitle(vehicleTypes[type].timeTitle)}
+      {headerValue(vehicleTypes[type].time(vehicle))}
     </Box>
   );
 
   const ConfirmationId = (
     <Flex justifyContent="space-between" alignItems="center">
-      <Text>Confirmation ID: {vehicle.confirmationID}</Text>
+      <Box>
+        {headerTitle('Confirmation ID')}
+        {headerValue(vehicle.confirmationID)}
+      </Box>
       <IconButton
         w="40px"
         h="40px"
@@ -127,26 +135,27 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
     </Flex>
   );
 
-  const VehicleType = <Box>{vehicle.type}</Box>;
-
   return (
-    <Box m={img.m}>
+    <Box m={img.margin}>
       <Popover placement="right">
         <PopoverTrigger>
           <Image borderRadius="full" boxSize="60px" src={img.src} fit="cover" />
         </PopoverTrigger>
-        <PopoverContent w="270px" backgroundColor={'#2B4865'} color={'#ffffff'}>
-          <PopoverArrow backgroundColor={'#2B4865'} />
-          <PopoverHeader>{VehicleType}</PopoverHeader>
-          {isPickingUpOrDroppingOffVehicleToday && (
+        {isPickingUpOrDroppingOffVehicleToday && (
+          <PopoverContent w="270px" backgroundColor={'#2B4865'} color={'#ffffff'}>
+            <PopoverArrow backgroundColor={'#2B4865'} />
+            <PopoverHeader>
+              {headerTitle('Vehicle Type')}
+              {headerValue(vehicle.type)}
+            </PopoverHeader>
             <PopoverBody>
               {CompanyName}
               {PickUpLocation}
               {PickUpTime}
               {ConfirmationId}
             </PopoverBody>
-          )}
-        </PopoverContent>
+          </PopoverContent>
+        )}
       </Popover>
     </Box>
   );
