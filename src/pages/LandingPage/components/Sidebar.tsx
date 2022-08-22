@@ -60,6 +60,7 @@ const Sidebar = ({ date, vehicles, flights }: Props) => {
     <Flex flexDirection="column" justifyContent="flex-start" h="100%" w="90px">
       <DateBubble date={date} />
       <VeciclesAndFlight
+        date={date}
         departingFlight={departingFlight}
         arrivalFlight={arrivalFlight}
         pickupVehicle={pickupVehicle}

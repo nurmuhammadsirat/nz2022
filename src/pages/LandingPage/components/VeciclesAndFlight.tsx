@@ -1,12 +1,13 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Flight, Vehicle, VehicleType } from '../../../types';
 import VecicleDivider from './VecicleDivider';
 import VehicleInfo from './VehicleInfo';
 
 type Props = {
+  date: string;
   departingFlight?: Flight;
   arrivalFlight?: Flight;
   pickupVehicle?: Vehicle;
@@ -14,19 +15,38 @@ type Props = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const VeciclesAndFlight = ({ departingFlight, arrivalFlight, pickupVehicle, dropoffVehicle }: Props) => {
-  const isVehicleTransfer = typeof pickupVehicle !== 'undefined' && typeof dropoffVehicle !== 'undefined';
+const VeciclesAndFlight = ({ date, departingFlight, arrivalFlight, pickupVehicle, dropoffVehicle }: Props) => {
+  const isPickingUpVehicleToday = useMemo(() => pickupVehicle?.pickUpDate === date, [pickupVehicle, date]);
+
+  const isDroppingOffVehicleToday = useMemo(() => dropoffVehicle?.dropOffDate === date, [dropoffVehicle, date]);
+
+  const isPickingUpOrDroppingOffVehicleToday = useMemo(
+    () => isPickingUpVehicleToday || isDroppingOffVehicleToday,
+    [isPickingUpVehicleToday, isDroppingOffVehicleToday],
+  );
 
   return (
     <Flex flexDirection="column" justifyContent="space-between" alignItems="center">
-      {isVehicleTransfer && (
+      {isPickingUpOrDroppingOffVehicleToday && (
         <Box mt="8px">
           <FontAwesomeIcon size="2x" icon={faTriangleExclamation} color="red" />
         </Box>
       )}
-      {dropoffVehicle && <VehicleInfo vehicle={dropoffVehicle} type={VehicleType.DROPOFF} />}
+      {dropoffVehicle && (
+        <VehicleInfo
+          vehicle={dropoffVehicle}
+          type={VehicleType.DROPOFF}
+          isPickingUpOrDroppingOffVehicleToday={isPickingUpOrDroppingOffVehicleToday}
+        />
+      )}
       {dropoffVehicle && <VecicleDivider />}
-      {pickupVehicle && <VehicleInfo vehicle={pickupVehicle} type={VehicleType.PICKUP} />}
+      {pickupVehicle && (
+        <VehicleInfo
+          vehicle={pickupVehicle}
+          type={VehicleType.PICKUP}
+          isPickingUpOrDroppingOffVehicleToday={isPickingUpOrDroppingOffVehicleToday}
+        />
+      )}
     </Flex>
   );
 };

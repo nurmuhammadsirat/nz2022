@@ -14,7 +14,8 @@ import {
 import { faMapLocationDot, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import suv from '../../../assets/hertz-intermediate-suv.jpg';
+import suvAce from '../../../assets/ace-intermediate-suv.jpg';
+import suvHertz from '../../../assets/hertz-intermediate-suv.jpg';
 import campervan from '../../../assets/maui-4-berth-beach.jpg';
 import { Colors } from '../../../styles';
 import { Vehicle, VehicleType } from '../../../types';
@@ -22,11 +23,12 @@ import { Vehicle, VehicleType } from '../../../types';
 type Props = {
   vehicle: Vehicle;
   type: VehicleType;
+  isPickingUpOrDroppingOffVehicleToday: boolean;
 };
 
 const vehicleMetadata: { [key: string]: { [key: string]: string } } = {
   'Intermediate SUV AWD': {
-    src: suv,
+    src: suvAce,
     m: '',
   },
   'Beach 4-Berth': {
@@ -34,7 +36,7 @@ const vehicleMetadata: { [key: string]: { [key: string]: string } } = {
     m: '12px 0',
   },
   'Intermediate SUV 2WD Group I IFAR': {
-    src: suv,
+    src: suvHertz,
     m: '',
   },
 };
@@ -64,12 +66,68 @@ const vehicleTypes: {
   },
 };
 
-const VehicleInfo = ({ vehicle, type }: Props) => {
+const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Props) => {
   const img = vehicleMetadata[vehicle.type];
 
   const handleLinkOpen = (url: string) => {
     window.open(url, '_blank')!.focus();
   };
+
+  const CompanyName = (
+    <Box mb="8px">
+      <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
+        Company Name
+      </Text>
+      <Text fontSize="sm">{vehicle.companyName}</Text>
+    </Box>
+  );
+
+  const PickUpLocation = (
+    <Flex justifyContent="space-between" alignItems="center">
+      <Box>
+        <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
+          {vehicleTypes[type].locationTitle}
+        </Text>
+        <Text fontSize="sm">{vehicleTypes[type].locationAddress(vehicle)}</Text>
+      </Box>
+      <IconButton
+        w="40px"
+        h="40px"
+        colorScheme="blue"
+        aria-label="Google Maps"
+        icon={
+          <FontAwesomeIcon
+            icon={faMapLocationDot}
+            onClick={() => handleLinkOpen(vehicleTypes[type].locationGMapsUrl(vehicle))}
+          />
+        }
+      />
+    </Flex>
+  );
+
+  const PickUpTime = (
+    <Box>
+      <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
+        {vehicleTypes[type].timeTitle}
+      </Text>
+      <Text fontSize="sm">{vehicleTypes[type].time(vehicle)}</Text>
+    </Box>
+  );
+
+  const ConfirmationId = (
+    <Flex justifyContent="space-between" alignItems="center">
+      <Text>Confirmation ID: {vehicle.confirmationID}</Text>
+      <IconButton
+        w="40px"
+        h="40px"
+        colorScheme="whiteAlpha"
+        aria-label="PDF"
+        icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(vehicle.url)} />}
+      />
+    </Flex>
+  );
+
+  const VehicleType = <Box>{vehicle.type}</Box>;
 
   return (
     <Box m={img.m}>
@@ -79,52 +137,15 @@ const VehicleInfo = ({ vehicle, type }: Props) => {
         </PopoverTrigger>
         <PopoverContent w="270px" backgroundColor={'#2B4865'} color={'#ffffff'}>
           <PopoverArrow backgroundColor={'#2B4865'} />
-          <PopoverHeader>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Text>Confirmation ID: {vehicle.confirmationID}</Text>
-              <IconButton
-                w="40px"
-                h="40px"
-                colorScheme="whiteAlpha"
-                aria-label="PDF"
-                icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(vehicle.url)} />}
-              />
-            </Flex>
-          </PopoverHeader>
-          <PopoverBody>
-            <Box mb="8px">
-              <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-                Company Name
-              </Text>
-              <Text fontSize="sm">{vehicle.companyName}</Text>
-            </Box>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Box>
-                <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-                  {vehicleTypes[type].locationTitle}
-                </Text>
-                <Text fontSize="sm">{vehicleTypes[type].locationAddress(vehicle)}</Text>
-              </Box>
-              <IconButton
-                w="40px"
-                h="40px"
-                colorScheme="blue"
-                aria-label="Google Maps"
-                icon={
-                  <FontAwesomeIcon
-                    icon={faMapLocationDot}
-                    onClick={() => handleLinkOpen(vehicleTypes[type].locationGMapsUrl(vehicle))}
-                  />
-                }
-              />
-            </Flex>
-            <Box>
-              <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-                {vehicleTypes[type].timeTitle}
-              </Text>
-              <Text fontSize="sm">{vehicleTypes[type].time(vehicle)}</Text>
-            </Box>
-          </PopoverBody>
+          <PopoverHeader>{VehicleType}</PopoverHeader>
+          {isPickingUpOrDroppingOffVehicleToday && (
+            <PopoverBody>
+              {CompanyName}
+              {PickUpLocation}
+              {PickUpTime}
+              {ConfirmationId}
+            </PopoverBody>
+          )}
         </PopoverContent>
       </Popover>
     </Box>
