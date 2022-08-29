@@ -48,21 +48,25 @@ const Type = (props: { flightType: string }) => (
 
 const Departure = (props: { departureTime: string; isDepartingToday: boolean }) => (
   <Box textAlign="right">
-    {headerTitle('Departure Time', Colors.departingFlight, { mr: '6px' })}
-    <FontAwesomeIcon icon={faPlaneDeparture} />
-    <Text fontSize="sm" fontStyle={props.isDepartingToday ? 'normal' : 'italic'}>
-      {props.isDepartingToday ? props.departureTime : 'Yesterday'}
-    </Text>
+    {headerTitle('Departure Time', Colors.departingFlight)}
+    <Flex justifyContent="flex-end" gap="8px">
+      <Text fontSize="sm" fontStyle={props.isDepartingToday ? 'normal' : 'italic'}>
+        {props.isDepartingToday ? props.departureTime : 'Yesterday'}
+      </Text>
+      <FontAwesomeIcon icon={faPlaneDeparture} />
+    </Flex>
   </Box>
 );
 
 const Arrival = (props: { arrivalTime: string; isArrivingToday: boolean }) => (
   <Box textAlign="right">
-    {headerTitle('Arrival Time', Colors.arrivalFlight, { mr: '6px' })}
-    <FontAwesomeIcon icon={faPlaneArrival} />
-    <Text fontSize="sm" fontStyle={props.isArrivingToday ? 'normal' : 'italic'}>
-      {props.isArrivingToday ? props.arrivalTime : 'Tomorrow'}
-    </Text>
+    {headerTitle('Arrival Time', Colors.arrivalFlight)}
+    <Flex justifyContent="flex-end" gap="8px">
+      <Text fontSize="sm" fontStyle={props.isArrivingToday ? 'normal' : 'italic'}>
+        {props.isArrivingToday ? props.arrivalTime : 'Tomorrow'}
+      </Text>
+      <FontAwesomeIcon icon={faPlaneArrival} />
+    </Flex>
   </Box>
 );
 
