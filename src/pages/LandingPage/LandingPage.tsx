@@ -46,7 +46,7 @@ const LandingPage = () => {
   const isMobile = useIsMobile();
 
   const { isFetching, error } = useGoogleSheetTrip({
-    enabled: !isMobile,
+    enabled: isMobile,
     onSuccess: (data: GoogleSheetTripData) => {
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);

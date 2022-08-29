@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-
-const KEY = 'ACCESSCODE';
+import { getAccessKey } from '../utils';
 
 const useIsAuthorized = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -10,7 +9,7 @@ const useIsAuthorized = () => {
 
   const headers = useMemo(() => {
     const myHeaders = new Headers();
-    const accessKey = localStorage.getItem(KEY) || '';
+    const accessKey = getAccessKey();
     myHeaders.append('x-access', accessKey);
 
     return myHeaders;
