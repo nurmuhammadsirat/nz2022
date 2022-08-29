@@ -9,6 +9,11 @@ export enum VehicleType {
   DROPOFF,
 }
 
+export enum FlightType {
+  GOING,
+  RETURN,
+}
+
 export type Accomodation = {
   checkIn: string;
   checkOut: string;
@@ -51,6 +56,11 @@ export type Flight = {
   arrivalTime: string;
   flightNo: string;
   flightDuration: string;
+  flightType: string;
+};
+
+export type Flights = {
+  [key in FlightType]: Flight[];
 };
 
 export type GoogleSheetTripData = {

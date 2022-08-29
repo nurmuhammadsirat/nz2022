@@ -1,16 +1,16 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { Flight, Vehicle } from '../../../types';
+import { Vehicle } from '../../../types';
 import DateBubble from './DateBubble';
 import VeciclesAndFlight from './VeciclesAndFlight';
 
 type Props = {
   date: string;
   vehicles: Vehicle[];
-  flights: Flight[];
+  hasFlight: boolean;
 };
 
-const Sidebar = ({ date, vehicles, flights }: Props) => {
+const Sidebar = ({ date, vehicles, hasFlight }: Props) => {
   const pickupVehicle = useMemo(
     () =>
       vehicles.find(veh => {
@@ -34,35 +34,12 @@ const Sidebar = ({ date, vehicles, flights }: Props) => {
     [vehicles, date],
   );
 
-  const departingFlight = useMemo(
-    () =>
-      flights.find(flight => {
-        const currentDate = Date.parse(date);
-        const departureDate = Date.parse(flight.departureDate);
-
-        return currentDate === departureDate;
-      }),
-    [flights, date],
-  );
-
-  const arrivalFlight = useMemo(
-    () =>
-      flights.find(flight => {
-        const currentDate = Date.parse(date);
-        const arrivalDate = Date.parse(flight.arrivalDate);
-
-        return currentDate === arrivalDate;
-      }),
-    [flights, date],
-  );
-
   return (
     <Flex flexDirection="column" justifyContent="flex-start" h="100%" w="90px">
       <DateBubble date={date} />
       <VeciclesAndFlight
         date={date}
-        departingFlight={departingFlight}
-        arrivalFlight={arrivalFlight}
+        hasFlight={hasFlight}
         pickupVehicle={pickupVehicle}
         dropoffVehicle={dropoffVehicle}
       />

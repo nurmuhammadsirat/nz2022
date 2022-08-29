@@ -2,7 +2,7 @@ import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
-import { Accomodation, Flight, GoogleSheetTripData, Vehicle } from '../../types';
+import { Accomodation, Flights, FlightType, GoogleSheetTripData, Vehicle } from '../../types';
 import { Header, QuickInfoCard } from './components';
 
 const DATES = [
@@ -38,7 +38,7 @@ const DATES = [
 const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [flights, setFlights] = useState<Flight[]>([]);
+  const [flights, setFlights] = useState<Flights | undefined>(undefined);
 
   const headerHeight = '150px';
 
@@ -47,7 +47,12 @@ const LandingPage = () => {
     onSuccess: (data: GoogleSheetTripData) => {
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);
-      setFlights(data.flights);
+
+      // Caveat, this is hardcoded to the order in the google sheet.
+      setFlights({
+        [FlightType.GOING]: [data.flights[0], data.flights[1]],
+        [FlightType.RETURN]: [data.flights[2], data.flights[3]],
+      });
     },
   });
 
@@ -65,8 +70,19 @@ const LandingPage = () => {
     }
 
     return DATES.map(date => {
+      const goingFlights =
+        flights && (date === '30-Nov-2022' || date === '1-Dec-2022') ? flights[FlightType.GOING] : [];
+      const returningFlights = flights && date === '26-Dec-2022' ? flights[FlightType.RETURN] : [];
+
       return (
-        <QuickInfoCard key={date} date={date} vehicles={vehicles} accomodations={accomodations} flights={flights} />
+        <QuickInfoCard
+          key={date}
+          date={date}
+          vehicles={vehicles}
+          accomodations={accomodations}
+          goingFlights={goingFlights}
+          returningFlights={returningFlights}
+        />
       );
     });
   }, [accomodations, error, flights, isFetching, vehicles]);

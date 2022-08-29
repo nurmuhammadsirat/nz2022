@@ -13,4 +13,6 @@ export default {
   },
   driving: '#11999E',
   link: '#7F5283',
+  departingFlight: '#0096FF',
+  arrivalFlight: '#42855B',
 };

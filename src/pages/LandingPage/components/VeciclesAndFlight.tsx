@@ -1,21 +1,19 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faPlane, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useMemo } from 'react';
-import { Flight, Vehicle, VehicleType } from '../../../types';
+import { Vehicle, VehicleType } from '../../../types';
 import VecicleDivider from './VecicleDivider';
 import VehicleInfo from './VehicleInfo';
 
 type Props = {
   date: string;
-  departingFlight?: Flight;
-  arrivalFlight?: Flight;
+  hasFlight: boolean;
   pickupVehicle?: Vehicle;
   dropoffVehicle?: Vehicle;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const VeciclesAndFlight = ({ date, departingFlight, arrivalFlight, pickupVehicle, dropoffVehicle }: Props) => {
+const VeciclesAndFlight = ({ date, hasFlight, pickupVehicle, dropoffVehicle }: Props) => {
   const isPickingUpVehicleToday = useMemo(() => pickupVehicle?.pickUpDate === date, [pickupVehicle, date]);
 
   const isDroppingOffVehicleToday = useMemo(() => dropoffVehicle?.dropOffDate === date, [dropoffVehicle, date]);
@@ -27,6 +25,11 @@ const VeciclesAndFlight = ({ date, departingFlight, arrivalFlight, pickupVehicle
 
   return (
     <Flex flexDirection="column" justifyContent="space-between" alignItems="center">
+      {hasFlight && (
+        <Box mt="8px">
+          <FontAwesomeIcon size="2x" icon={faPlane} />
+        </Box>
+      )}
       {isPickingUpOrDroppingOffVehicleToday && (
         <Box mt="8px">
           <FontAwesomeIcon size="2x" icon={faTriangleExclamation} color="red" />
@@ -39,7 +42,7 @@ const VeciclesAndFlight = ({ date, departingFlight, arrivalFlight, pickupVehicle
           isPickingUpOrDroppingOffVehicleToday={isPickingUpOrDroppingOffVehicleToday}
         />
       )}
-      {dropoffVehicle && <VecicleDivider />}
+      {dropoffVehicle && pickupVehicle && <VecicleDivider />}
       {pickupVehicle && (
         <VehicleInfo
           vehicle={pickupVehicle}
