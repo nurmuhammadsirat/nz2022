@@ -13,12 +13,13 @@ import {
 } from '@chakra-ui/react';
 import { faMapLocationDot, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useCallback } from 'react';
+import React from 'react';
 import suvAce from '../../../assets/ace-intermediate-suv.jpg';
 import suvHertz from '../../../assets/hertz-intermediate-suv.jpg';
 import campervan from '../../../assets/maui-4-berth-beach.jpg';
 import { Colors } from '../../../styles';
 import { Vehicle, VehicleType } from '../../../types';
+import { headerTitle, headerValue } from '../../../utils';
 
 type Props = {
   vehicle: Vehicle;
@@ -73,68 +74,6 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
     window.open(url, '_blank')!.focus();
   };
 
-  const headerTitle = useCallback(
-    (title: string) => (
-      <Text as="i" fontSize="sm" fontWeight="bold" color={Colors.trafficLight.green}>
-        {title}
-      </Text>
-    ),
-    [],
-  );
-
-  const headerValue = useCallback((title: string) => <Text fontSize="sm">{title}</Text>, []);
-
-  const CompanyName = (
-    <Box mb="8px">
-      {headerTitle('Company Name')}
-      <Text fontSize="sm">{vehicle.companyName}</Text>
-    </Box>
-  );
-
-  const PickUpLocation = (
-    <Flex justifyContent="space-between" alignItems="center">
-      <Box>
-        {headerTitle(vehicleTypes[type].locationTitle)}
-        {headerValue(vehicleTypes[type].locationAddress(vehicle))}
-      </Box>
-      <IconButton
-        w="40px"
-        h="40px"
-        colorScheme="blue"
-        aria-label="Google Maps"
-        icon={
-          <FontAwesomeIcon
-            icon={faMapLocationDot}
-            onClick={() => handleLinkOpen(vehicleTypes[type].locationGMapsUrl(vehicle))}
-          />
-        }
-      />
-    </Flex>
-  );
-
-  const PickUpTime = (
-    <Box>
-      {headerTitle(vehicleTypes[type].timeTitle)}
-      {headerValue(vehicleTypes[type].time(vehicle))}
-    </Box>
-  );
-
-  const ConfirmationId = (
-    <Flex justifyContent="space-between" alignItems="center">
-      <Box>
-        {headerTitle('Confirmation ID')}
-        {headerValue(vehicle.confirmationID)}
-      </Box>
-      <IconButton
-        w="40px"
-        h="40px"
-        colorScheme="whiteAlpha"
-        aria-label="PDF"
-        icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(vehicle.url)} />}
-      />
-    </Flex>
-  );
-
   return (
     <Box m={img.margin}>
       <Popover placement="right">
@@ -145,14 +84,18 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
           <PopoverContent w="270px" backgroundColor={'#2B4865'} color={'#ffffff'}>
             <PopoverArrow backgroundColor={'#2B4865'} />
             <PopoverHeader>
-              {headerTitle('Vehicle Type')}
+              {headerTitle('Vehicle Type', Colors.trafficLight.green)}
               {headerValue(vehicle.type)}
             </PopoverHeader>
             <PopoverBody>
-              {CompanyName}
-              {PickUpLocation}
-              {PickUpTime}
-              {ConfirmationId}
+              <CompanyName companyName={vehicle.companyName} />
+              <PickUpLocation
+                type={type}
+                vehicle={vehicle}
+                onClick={() => handleLinkOpen(vehicleTypes[type].locationGMapsUrl(vehicle))}
+              />
+              <PickUpTime type={type} vehicle={vehicle} />
+              <ConfirmationId confirmationId={vehicle.confirmationID} onClick={() => handleLinkOpen(vehicle.url)} />
             </PopoverBody>
           </PopoverContent>
         )}
@@ -160,5 +103,51 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
     </Box>
   );
 };
+
+const CompanyName = (props: { companyName: string }) => (
+  <Box mb="8px">
+    {headerTitle('Company Name', Colors.trafficLight.green)}
+    <Text fontSize="sm">{props.companyName}</Text>
+  </Box>
+);
+
+const PickUpLocation = (props: { type: VehicleType; vehicle: Vehicle; onClick: () => void }) => (
+  <Flex justifyContent="space-between" alignItems="center">
+    <Box>
+      {headerTitle(vehicleTypes[props.type].locationTitle, Colors.trafficLight.green)}
+      {headerValue(vehicleTypes[props.type].locationAddress(props.vehicle))}
+    </Box>
+    <IconButton
+      w="40px"
+      h="40px"
+      colorScheme="blue"
+      aria-label="Google Maps"
+      icon={<FontAwesomeIcon icon={faMapLocationDot} onClick={props.onClick} />}
+    />
+  </Flex>
+);
+
+const PickUpTime = (props: { type: VehicleType; vehicle: Vehicle }) => (
+  <Box>
+    {headerTitle(vehicleTypes[props.type].timeTitle, Colors.trafficLight.green)}
+    {headerValue(vehicleTypes[props.type].time(props.vehicle))}
+  </Box>
+);
+
+const ConfirmationId = (props: { confirmationId: string; onClick: () => void }) => (
+  <Flex justifyContent="space-between" alignItems="center">
+    <Box>
+      {headerTitle('Confirmation ID', Colors.trafficLight.green)}
+      {headerValue(props.confirmationId)}
+    </Box>
+    <IconButton
+      w="40px"
+      h="40px"
+      colorScheme="whiteAlpha"
+      aria-label="PDF"
+      icon={<FontAwesomeIcon icon={faFileLines} onClick={props.onClick} />}
+    />
+  </Flex>
+);
 
 export default VehicleInfo;
