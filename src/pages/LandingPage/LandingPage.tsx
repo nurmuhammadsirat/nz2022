@@ -1,9 +1,10 @@
-import { Box, Center, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import useIsMobile from '../../hooks/useIsMobile';
 import { Colors } from '../../styles';
 import { Accomodation, Flights, FlightType, GoogleSheetTripData, Vehicle } from '../../types';
+import { UnsupportedPage } from '../UnsupportedPage';
 import { Header, QuickInfoCard } from './components';
 
 const DATES = [
@@ -100,15 +101,8 @@ const LandingPage = () => {
       </Box>
     </>
   ) : (
-    <Unsupported />
+    <UnsupportedPage />
   );
 };
-
-const Unsupported = () => (
-  <Flex w="100vw" h="100vh" flexDirection="column" justifyContent="center" alignItems="center">
-    <Text>App is not supported on desktop.</Text>
-    <Text>Please resize or open on your mobile phone.</Text>
-  </Flex>
-);
 
 export default LandingPage;
