@@ -19,19 +19,20 @@ const CardContent = ({ date, checkInAccomodation, checkOutAccomodation, goingFli
   const isCheckingIn = useMemo(() => date === checkInAccomodation?.checkIn, [checkInAccomodation, date]);
 
   const renderFlights = useCallback(
-    (flights: Flight[]) => (
-      <Box>
-        {flights.length > 0 && <SectionTitle title="Flights" />}
-        {flights.map((flight, index) => (
-          <FlightInfo
-            key={flight.departureDate + flight.departureLocation}
-            flight={flight}
-            date={date}
-            hasBottomBorder={index + 1 < flights.length}
-          />
-        ))}
-      </Box>
-    ),
+    (flights: Flight[]) =>
+      flights.length > 0 ? (
+        <Box>
+          <SectionTitle title="FLIGHT" />
+          {flights.map((flight, index) => (
+            <FlightInfo
+              key={flight.departureDate + flight.departureLocation}
+              flight={flight}
+              date={date}
+              hasBottomBorder={index + 1 < flights.length}
+            />
+          ))}
+        </Box>
+      ) : null,
     [date],
   );
 
@@ -44,7 +45,7 @@ const CardContent = ({ date, checkInAccomodation, checkOutAccomodation, goingFli
     () =>
       hasAccomodation ? (
         <Box>
-          <SectionTitle title="Accomodations" />
+          <SectionTitle title="ACCOMODATION" />
           {checkOutAccomodation && (
             <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
           )}
