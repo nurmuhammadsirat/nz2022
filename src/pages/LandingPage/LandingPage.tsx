@@ -1,6 +1,7 @@
-import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Spinner, Text } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
+import useIsMobile from '../../hooks/useIsMobile';
 import { Colors } from '../../styles';
 import { Accomodation, Flights, FlightType, GoogleSheetTripData, Vehicle } from '../../types';
 import { Header, QuickInfoCard } from './components';
@@ -35,15 +36,17 @@ const DATES = [
   '26-Dec-2022',
 ];
 
+const HEADERHEIGHT = '150px';
+
 const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
 
-  const headerHeight = '150px';
+  const isMobile = useIsMobile();
 
   const { isFetching, error } = useGoogleSheetTrip({
-    enabled: true,
+    enabled: !isMobile,
     onSuccess: (data: GoogleSheetTripData) => {
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);
@@ -59,14 +62,14 @@ const LandingPage = () => {
   const renderedContent = useMemo(() => {
     if (isFetching) {
       return (
-        <Center h={`calc(100vh - ${headerHeight})`}>
+        <Center h={`calc(100vh - ${HEADERHEIGHT})`}>
           <Spinner />
         </Center>
       );
     }
 
     if (error) {
-      return <Center h={`calc(100vh - ${headerHeight})`}>An error occurred when loading data.</Center>;
+      return <Center h={`calc(100vh - ${HEADERHEIGHT})`}>An error occurred when loading data.</Center>;
     }
 
     return DATES.map(date => {
@@ -87,16 +90,25 @@ const LandingPage = () => {
     });
   }, [accomodations, error, flights, isFetching, vehicles]);
 
-  return (
+  return isMobile ? (
     <>
-      <Header height={headerHeight} />
+      <Header height={HEADERHEIGHT} />
       <Box p="16px" backgroundColor={Colors.altCardBackground}>
         <Flex flexDirection="column" gap="16px">
           {renderedContent}
         </Flex>
       </Box>
     </>
+  ) : (
+    <Unsupported />
   );
 };
+
+const Unsupported = () => (
+  <Flex w="100vw" h="100vh" flexDirection="column" justifyContent="center" alignItems="center">
+    <Text>App is not supported on desktop.</Text>
+    <Text>Please resize or open on your mobile phone.</Text>
+  </Flex>
+);
 
 export default LandingPage;
