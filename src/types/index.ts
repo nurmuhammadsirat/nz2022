@@ -66,6 +66,7 @@ export type Activity = {
   time: string;
   confirmationNo: string;
   confirmationUrl: string;
+  googleMapsUrl: string;
 };
 
 export type Flights = {

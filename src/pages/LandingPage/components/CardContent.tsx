@@ -84,9 +84,11 @@ const CardContent = ({
       return (
         <Box>
           <SectionTitle title="ACTIVITIES" />
-          {activities.map((activity: Activity) => (
-            <ActivityInfo key={activity.name} activity={activity} />
-          ))}
+          <Flex flexDirection="column" gap="16px">
+            {activities.map((activity: Activity) => (
+              <ActivityInfo key={activity.name} activity={activity} />
+            ))}
+          </Flex>
         </Box>
       );
     }
