@@ -20,3 +20,7 @@ export const headerTitle = (title: string, color: string, props: TextProps = {})
 );
 
 export const headerValue = (value: string) => <Text fontSize="sm">{value}</Text>;
+
+export const handleLinkOpen = (url: string) => {
+  window.open(url, '_blank')!.focus();
+};

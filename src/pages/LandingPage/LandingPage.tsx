@@ -2,7 +2,7 @@ import { Box, Center, Flex } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
-import { Accomodation, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
+import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
 import { SpinnerPage } from '../SpinnerPage';
 import { Header, QuickInfoCard } from './components';
 
@@ -42,11 +42,13 @@ const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   const { isFetching: isFetchingGoogleData, error } = useGoogleSheetTrip({
     onSuccess: (data: GoogleSheetTripResponse) => {
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);
+      setActivities(data.activities);
 
       // Caveat, this is hardcoded to the order in the google sheet.
       setFlights({
@@ -76,12 +78,13 @@ const LandingPage = () => {
           date={date}
           vehicles={vehicles}
           accomodations={accomodations}
+          activities={activities}
           goingFlights={goingFlights}
           returningFlights={returningFlights}
         />
       );
     });
-  }, [accomodations, error, flights, isFetchingGoogleData, vehicles]);
+  }, [accomodations, activities, error, flights, isFetchingGoogleData, vehicles]);
 
   return (
     <>

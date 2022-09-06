@@ -20,6 +20,7 @@ import campervan from '../../../assets/maui-4-berth-beach.jpg';
 import { Colors } from '../../../styles';
 import { Vehicle, VehicleType } from '../../../types';
 import { headerTitle, headerValue } from '../../../utils';
+import { handleLinkOpen } from '../../../utils/index';
 
 type Props = {
   vehicle: Vehicle;
@@ -69,10 +70,6 @@ const vehicleTypes: {
 
 const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Props) => {
   const img = vehicleImage[vehicle.type];
-
-  const handleLinkOpen = (url: string) => {
-    window.open(url, '_blank')!.focus();
-  };
 
   return (
     <Box m={img.margin}>

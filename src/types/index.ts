@@ -59,6 +59,15 @@ export type Flight = {
   flightType: string;
 };
 
+export type Activity = {
+  name: string;
+  activityUrl: string;
+  date: string;
+  time: string;
+  confirmationNo: string;
+  confirmationUrl: string;
+};
+
 export type Flights = {
   [key in FlightType]: Flight[];
 };
@@ -67,6 +76,7 @@ export type GoogleSheetTripResponse = {
   accomodations: Accomodation[];
   vehicles: Vehicle[];
   flights: Flight[];
+  activities: Activity[];
 };
 
 export type AccessResponse = {

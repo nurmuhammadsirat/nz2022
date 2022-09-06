@@ -6,6 +6,7 @@ import React from 'react';
 import { Colors, Fonts } from '../../../styles';
 import { AccomodationType } from '../../../types';
 import { Accomodation } from '../../../types';
+import { handleLinkOpen } from '../../../utils';
 
 type AccomodationMetadataType = {
   [key in AccomodationType]: {
@@ -48,10 +49,6 @@ type Props = {
 };
 
 const AccomodationInfo = ({ accomodation, type }: Props) => {
-  const handleLinkOpen = (url: string) => {
-    window.open(url, '_blank')!.focus();
-  };
-
   const isCurrentlyAt = type === AccomodationType.CURRENT;
   const isCheckingIn = type === AccomodationType.CHECKIN;
 
