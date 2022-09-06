@@ -54,12 +54,16 @@ const ActivityInfo = ({ activity }: Props) => {
       {activity.notes && activity.notes.length !== 0 && (
         <Flex justifyContent="space-between" alignItems="center">
           <Box>
-            <Text as="i" fontSize="sm" fontWeight="bold">
-              Notes
-            </Text>
-            <Text as="i" fontSize="sm" fontFamily={Fonts.noto}>
-              {activity.notes}
-            </Text>
+            <Box>
+              <Text as="i" fontSize="sm" fontWeight="bold">
+                Notes
+              </Text>
+            </Box>
+            <Box>
+              <Text as="i" fontSize="sm" fontFamily={Fonts.noto}>
+                {activity.notes}
+              </Text>
+            </Box>
           </Box>
         </Flex>
       )}
