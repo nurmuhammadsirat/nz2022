@@ -55,21 +55,23 @@ const CardContent = ({
       hasAccomodation ? (
         <Box>
           <SectionTitle title="ACCOMODATION" />
-          {checkOutAccomodation && (
-            <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
-          )}
-          {checkOutAccomodation && checkInAccomodation && (
-            <AccomodationDivider
-              checkInLocation={checkInAccomodation.location}
-              checkOutLocation={checkOutAccomodation.location}
-            />
-          )}
-          {checkInAccomodation && isCheckingIn && (
-            <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CHECKIN} />
-          )}
-          {checkInAccomodation && !isCheckingIn && (
-            <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CURRENT} />
-          )}
+          <Flex flexDirection="column" gap="16px">
+            {checkOutAccomodation && (
+              <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
+            )}
+            {checkOutAccomodation && checkInAccomodation && (
+              <AccomodationDivider
+                checkInLocation={checkInAccomodation.location}
+                checkOutLocation={checkOutAccomodation.location}
+              />
+            )}
+            {checkInAccomodation && isCheckingIn && (
+              <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CHECKIN} />
+            )}
+            {checkInAccomodation && !isCheckingIn && (
+              <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CURRENT} />
+            )}
+          </Flex>
         </Box>
       ) : null,
     [checkInAccomodation, checkOutAccomodation, hasAccomodation, isCheckingIn],

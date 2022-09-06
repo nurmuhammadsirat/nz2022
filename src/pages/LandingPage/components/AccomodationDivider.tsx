@@ -12,7 +12,7 @@ type Props = {
 const AccomodationDivider = ({ checkInLocation, checkOutLocation }: Props) => {
   return (
     <Flex h="40px" w="100%" justifyContent="space-between" alignItems="center" color={Colors.driving}>
-      <Box>
+      <Box w="min-content">
         <Text as="i" fontWeight="bold">
           {checkOutLocation}
         </Text>
@@ -26,7 +26,7 @@ const AccomodationDivider = ({ checkInLocation, checkOutLocation }: Props) => {
       <Box>
         <FontAwesomeIcon icon={faEllipsis} />
       </Box>
-      <Box>
+      <Box w="min-content">
         <Text as="i" fontWeight="bold">
           {checkInLocation}
         </Text>
