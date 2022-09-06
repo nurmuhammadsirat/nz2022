@@ -3,11 +3,13 @@ import React from 'react';
 
 const KEY = 'ACCESSCODE';
 
-export const getAccessKey = (): string => {
+export const BASE_NETLIFY_PATH = '/.netlify/functions';
+
+export const getAccessCode = (): string => {
   return localStorage.getItem(KEY) || '';
 };
 
-export const setAccessKey = (value: string) => {
+export const setAccessCode = (value: string) => {
   localStorage.setItem(KEY, value);
 };
 

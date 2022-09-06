@@ -63,8 +63,12 @@ export type Flights = {
   [key in FlightType]: Flight[];
 };
 
-export type GoogleSheetTripData = {
+export type GoogleSheetTripResponse = {
   accomodations: Accomodation[];
   vehicles: Vehicle[];
   flights: Flight[];
+};
+
+export type AccessResponse = {
+  isAllowed: boolean;
 };

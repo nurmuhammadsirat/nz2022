@@ -1,27 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
-import { getAccessKey } from '../utils';
+import { useQuery } from '@tanstack/react-query';
+import axios, { AxiosResponse } from 'axios';
+import { AccessResponse } from '../types';
+import { BASE_NETLIFY_PATH, getAccessCode } from '../utils/index';
 
 const useIsAuthorized = () => {
-  const [isAuthorized, setIsAuthorized] = useState(false);
-
-  const myHeaders = new Headers();
-  myHeaders.append('Accept', 'image/jpeg');
-
-  const headers = useMemo(() => {
-    const myHeaders = new Headers();
-    const accessKey = getAccessKey();
-    myHeaders.append('x-access', accessKey);
-
-    return myHeaders;
-  }, []);
-
-  useEffect(() => {
-    fetch('/.netlify/functions/access', { headers })
-      .then(resp => resp.json())
-      .then(data => setIsAuthorized(data.isAllowed));
-  }, [headers]);
-
-  return isAuthorized;
+  return useQuery<boolean>(['useIsAuthorized'], async () => {
+    const accessCode = getAccessCode();
+    const headers = {
+      'x-access': accessCode,
+    };
+    const resp: AxiosResponse<AccessResponse> = await axios.get(`${BASE_NETLIFY_PATH}/access`, { headers });
+    return resp.data.isAllowed;
+  });
 };
 
 export default useIsAuthorized;

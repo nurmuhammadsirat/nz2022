@@ -1,10 +1,9 @@
-import { Box, Center, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
-import useIsMobile from '../../hooks/useIsMobile';
 import { Colors } from '../../styles';
-import { Accomodation, Flights, FlightType, GoogleSheetTripData, Vehicle } from '../../types';
-import { UnsupportedPage } from '../UnsupportedPage';
+import { Accomodation, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
+import { SpinnerPage } from '../SpinnerPage';
 import { Header, QuickInfoCard } from './components';
 
 const DATES = [
@@ -44,11 +43,8 @@ const LandingPage = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
 
-  const isMobile = useIsMobile();
-
-  const { isFetching, error } = useGoogleSheetTrip({
-    enabled: isMobile,
-    onSuccess: (data: GoogleSheetTripData) => {
+  const { isFetching: isFetchingGoogleData, error } = useGoogleSheetTrip({
+    onSuccess: (data: GoogleSheetTripResponse) => {
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);
 
@@ -61,12 +57,8 @@ const LandingPage = () => {
   });
 
   const renderedContent = useMemo(() => {
-    if (isFetching) {
-      return (
-        <Center h={`calc(100vh - ${HEADERHEIGHT})`}>
-          <Spinner />
-        </Center>
-      );
+    if (isFetchingGoogleData) {
+      return <SpinnerPage />;
     }
 
     if (error) {
@@ -89,9 +81,9 @@ const LandingPage = () => {
         />
       );
     });
-  }, [accomodations, error, flights, isFetching, vehicles]);
+  }, [accomodations, error, flights, isFetchingGoogleData, vehicles]);
 
-  return isMobile ? (
+  return (
     <>
       <Header height={HEADERHEIGHT} />
       <Box p="16px" backgroundColor={Colors.altCardBackground}>
@@ -100,8 +92,6 @@ const LandingPage = () => {
         </Flex>
       </Box>
     </>
-  ) : (
-    <UnsupportedPage />
   );
 };
 

@@ -1,14 +1,12 @@
 import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
 import React, { ChangeEvent, useState } from 'react';
-import { setAccessKey } from '../../utils';
+import { setAccessCode } from '../../utils';
 
 const UnauthorizedPage = () => {
   const [value, setValue] = useState('');
 
   const handleClick = () => {
-    setAccessKey(value);
-
-    // Not very elegant. In fact, this whole flow is not very elegant.
+    setAccessCode(value);
     window.location.reload();
   };
 
