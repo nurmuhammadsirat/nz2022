@@ -17,7 +17,7 @@ const googleSheet = {
     ['Accomodation', 'Accomodation!A1:L13'],
     ['Vehicle', 'Vehicle!A1:N4'],
     ['Flight', 'Flight!A1:K5'],
-    ['Activity', 'Activity!A1:G5'],
+    ['Activity', 'Activity!A1:H5'],
   ],
 };
 
