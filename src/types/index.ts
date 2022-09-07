@@ -14,6 +14,12 @@ export enum FlightType {
   RETURN,
 }
 
+export enum Section {
+  FLIGHT = 'Flight',
+  ACCOMODATION = 'Accomodation',
+  ACTIVITIES = 'Activities',
+}
+
 export type Accomodation = {
   checkIn: string;
   checkOut: string;

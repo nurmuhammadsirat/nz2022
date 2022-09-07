@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useCallback, useMemo } from 'react';
-import { AccomodationType, Activity, Flight } from '../../../types';
+import { AccomodationType, Activity, Flight, Section } from '../../../types';
 import { Accomodation } from '../../../types';
 import AccomodationDivider from './AccomodationDivider';
 import AccomodationInfo from './AccomodationInfo';
@@ -30,7 +30,7 @@ const InfoCardList = ({
   const renderFlights = useCallback(
     (flights: Flight[]) =>
       flights.length > 0 ? (
-        <InfoCard title="FLIGHT">
+        <InfoCard title={Section.FLIGHT}>
           {flights.map((flight, index) => (
             <FlightInfo
               key={flight.departureDate + flight.departureLocation}
@@ -52,7 +52,7 @@ const InfoCardList = ({
   const renderAccomodations = useCallback(
     () =>
       hasAccomodation ? (
-        <InfoCard title="ACCOMODATION">
+        <InfoCard title={Section.ACCOMODATION}>
           {checkOutAccomodation && (
             <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
           )}
@@ -78,7 +78,7 @@ const InfoCardList = ({
       return null;
     } else {
       return (
-        <InfoCard title="ACTIVITIES">
+        <InfoCard title={Section.ACTIVITIES}>
           {activities.map((activity: Activity) => (
             <ActivityInfo key={activity.name} activity={activity} />
           ))}

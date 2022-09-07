@@ -1,9 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
 import { BoxShadow, Colors } from '../../../styles';
+import { Section } from '../../../types';
 
 type Props = {
-  title: string;
+  title: Section;
   children: ReactNode;
 };
 
@@ -18,10 +19,15 @@ const InfoCard = ({ title, children }: Props) => {
   );
 };
 
-const SectionTitle = ({ title }: { title: string }) => (
-  <Box backgroundColor={Colors.sectionTitle.background} color={Colors.sectionTitle.text} textAlign="center" p="4px">
+const SectionTitle = ({ title }: { title: Section }) => (
+  <Box
+    backgroundColor={Colors.sectionTitle[title].background}
+    color={Colors.sectionTitle[title].text}
+    textAlign="center"
+    p="4px"
+  >
     <Text fontSize="22px" fontWeight="800">
-      {title}
+      {title.toString().toUpperCase()}
     </Text>
   </Box>
 );

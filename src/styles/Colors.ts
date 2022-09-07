@@ -1,11 +1,14 @@
+import { Section } from '../types';
+
 export default {
   contentBackground: '#FFFFFF',
   headerBackground: '#371B58',
   headerText: '#E4F9F5',
   cardBackground: '#FFFFFF',
   sectionTitle: {
-    background: '#11999E',
-    text: '#FFFFFF',
+    [Section.FLIGHT]: { background: '#C21010', text: '#FFFFFF' },
+    [Section.ACCOMODATION]: { background: '#42855B', text: '#FFFFFF' },
+    [Section.ACTIVITIES]: { background: '#11999E', text: '#FFFFFF' },
   },
   calendar: {
     month: {
