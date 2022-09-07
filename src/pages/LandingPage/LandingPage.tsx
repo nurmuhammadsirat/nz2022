@@ -4,7 +4,7 @@ import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
 import { SpinnerPage } from '../SpinnerPage';
-import { Header, DailyContent } from './components';
+import { Header, DailyContent, Countdown } from './components';
 
 const DATES = [
   '30-Nov-2022',
@@ -89,6 +89,7 @@ const LandingPage = () => {
   return (
     <>
       <Header height={HEADERHEIGHT} />
+      <Countdown firstDayDate={DATES[0]} />
       <Flex flexDirection="column" gap="8px" backgroundColor={Colors.contentBackground}>
         {renderedContent}
       </Flex>
