@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { BoxShadow, Colors } from '../../../styles';
+import { Colors } from '../../../styles';
 import { Accomodation, Activity, Flight, Vehicle } from '../../../types';
-import CardContent from './CardContent';
+import InfoCardList from './InfoCardList';
 import Sidebar from './Sidebar';
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   returningFlights: Flight[];
 };
 
-const QuickInfoCard = ({ date, vehicles, accomodations, activities, goingFlights, returningFlights }: Props) => {
+const DailyContent = ({ date, vehicles, accomodations, activities, goingFlights, returningFlights }: Props) => {
   const checkInAccomodation = useMemo(
     () =>
       accomodations.find(acc => {
@@ -54,15 +54,9 @@ const QuickInfoCard = ({ date, vehicles, accomodations, activities, goingFlights
   );
 
   return (
-    <Flex
-      key={date}
-      p="16px 8px"
-      backgroundColor={Colors.cardBackground}
-      borderRadius="8px"
-      boxShadow={BoxShadow.light}
-    >
+    <Flex key={date} p="16px 8px" backgroundColor={Colors.cardBackground} gap="10px">
       <Sidebar date={date} vehicles={vehicles} hasFlight={hasFlight} />
-      <CardContent
+      <InfoCardList
         date={date}
         checkInAccomodation={checkInAccomodation}
         checkOutAccomodation={checkOutAccomodation}
@@ -74,4 +68,4 @@ const QuickInfoCard = ({ date, vehicles, accomodations, activities, goingFlights
   );
 };
 
-export default QuickInfoCard;
+export default DailyContent;

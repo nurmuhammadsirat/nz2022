@@ -1,12 +1,12 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import React, { useCallback, useMemo } from 'react';
-import { Colors } from '../../../styles';
 import { AccomodationType, Activity, Flight } from '../../../types';
 import { Accomodation } from '../../../types';
 import AccomodationDivider from './AccomodationDivider';
 import AccomodationInfo from './AccomodationInfo';
 import ActivityInfo from './ActivityInfo';
 import FlightInfo from './FlightInfo';
+import InfoCard from './InfoCard';
 
 type Props = {
   date: string;
@@ -17,7 +17,7 @@ type Props = {
   returningFlights: Flight[];
 };
 
-const CardContent = ({
+const InfoCardList = ({
   date,
   checkInAccomodation,
   checkOutAccomodation,
@@ -30,8 +30,7 @@ const CardContent = ({
   const renderFlights = useCallback(
     (flights: Flight[]) =>
       flights.length > 0 ? (
-        <Box>
-          <SectionTitle title="FLIGHT" />
+        <InfoCard title="FLIGHT">
           {flights.map((flight, index) => (
             <FlightInfo
               key={flight.departureDate + flight.departureLocation}
@@ -40,7 +39,7 @@ const CardContent = ({
               hasBottomBorder={index + 1 < flights.length}
             />
           ))}
-        </Box>
+        </InfoCard>
       ) : null,
     [date],
   );
@@ -53,26 +52,23 @@ const CardContent = ({
   const renderAccomodations = useCallback(
     () =>
       hasAccomodation ? (
-        <Box>
-          <SectionTitle title="ACCOMODATION" />
-          <Flex flexDirection="column" gap="16px">
-            {checkOutAccomodation && (
-              <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
-            )}
-            {checkOutAccomodation && checkInAccomodation && (
-              <AccomodationDivider
-                checkInLocation={checkInAccomodation.location}
-                checkOutLocation={checkOutAccomodation.location}
-              />
-            )}
-            {checkInAccomodation && isCheckingIn && (
-              <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CHECKIN} />
-            )}
-            {checkInAccomodation && !isCheckingIn && (
-              <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CURRENT} />
-            )}
-          </Flex>
-        </Box>
+        <InfoCard title="ACCOMODATION">
+          {checkOutAccomodation && (
+            <AccomodationInfo accomodation={checkOutAccomodation} type={AccomodationType.CHECKOUT} />
+          )}
+          {checkOutAccomodation && checkInAccomodation && (
+            <AccomodationDivider
+              checkInLocation={checkInAccomodation.location}
+              checkOutLocation={checkOutAccomodation.location}
+            />
+          )}
+          {checkInAccomodation && isCheckingIn && (
+            <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CHECKIN} />
+          )}
+          {checkInAccomodation && !isCheckingIn && (
+            <AccomodationInfo accomodation={checkInAccomodation} type={AccomodationType.CURRENT} />
+          )}
+        </InfoCard>
       ) : null,
     [checkInAccomodation, checkOutAccomodation, hasAccomodation, isCheckingIn],
   );
@@ -82,20 +78,17 @@ const CardContent = ({
       return null;
     } else {
       return (
-        <Box>
-          <SectionTitle title="ACTIVITIES" />
-          <Flex flexDirection="column" gap="16px">
-            {activities.map((activity: Activity) => (
-              <ActivityInfo key={activity.name} activity={activity} />
-            ))}
-          </Flex>
-        </Box>
+        <InfoCard title="ACTIVITIES">
+          {activities.map((activity: Activity) => (
+            <ActivityInfo key={activity.name} activity={activity} />
+          ))}
+        </InfoCard>
       );
     }
   }, [activities]);
 
   return (
-    <Flex flexDirection="column" justifyContent="space-between" gap="30px" pl="15px" w="calc(100% - 90px)" h="100%">
+    <Flex flexDirection="column" justifyContent="space-between" gap="30px" w="calc(100% - 90px)" h="100%">
       {renderFlights(
         goingFlights.filter(flight =>
           [Date.parse(flight.departureDate), Date.parse(flight.arrivalDate)].includes(Date.parse(date)),
@@ -108,12 +101,4 @@ const CardContent = ({
   );
 };
 
-const SectionTitle = (props: { title: string }) => (
-  <Box backgroundColor={Colors.sectionTitle.background} color={Colors.sectionTitle.text} textAlign="center" p="4px">
-    <Text fontSize="22px" fontWeight="800">
-      {props.title}
-    </Text>
-  </Box>
-);
-
-export default CardContent;
+export default InfoCardList;

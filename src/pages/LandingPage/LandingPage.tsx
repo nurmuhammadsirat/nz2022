@@ -1,10 +1,10 @@
-import { Box, Center, Flex } from '@chakra-ui/react';
+import { Center, Flex } from '@chakra-ui/react';
 import React, { useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
 import { SpinnerPage } from '../SpinnerPage';
-import { Header, QuickInfoCard } from './components';
+import { Header, DailyContent } from './components';
 
 const DATES = [
   '30-Nov-2022',
@@ -73,7 +73,7 @@ const LandingPage = () => {
       const returningFlights = flights && date === '26-Dec-2022' ? flights[FlightType.RETURN] : [];
 
       return (
-        <QuickInfoCard
+        <DailyContent
           key={date}
           date={date}
           vehicles={vehicles}
@@ -89,11 +89,9 @@ const LandingPage = () => {
   return (
     <>
       <Header height={HEADERHEIGHT} />
-      <Box p="16px" backgroundColor={Colors.altCardBackground}>
-        <Flex flexDirection="column" gap="16px">
-          {renderedContent}
-        </Flex>
-      </Box>
+      <Flex flexDirection="column" gap="8px" backgroundColor={Colors.contentBackground}>
+        {renderedContent}
+      </Flex>
     </>
   );
 };

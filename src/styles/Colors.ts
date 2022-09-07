@@ -1,8 +1,8 @@
 export default {
+  contentBackground: '#FFFFFF',
   headerBackground: '#371B58',
   headerText: '#E4F9F5',
   cardBackground: '#FFFFFF',
-  altCardBackground: '#EAF6F6',
   sectionTitle: {
     background: '#11999E',
     text: '#FFFFFF',
