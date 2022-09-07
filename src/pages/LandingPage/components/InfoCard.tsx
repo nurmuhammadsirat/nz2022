@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
-import { Colors } from '../../../styles';
+import { BoxShadow, Colors } from '../../../styles';
 
 type Props = {
   title: string;
@@ -9,9 +9,9 @@ type Props = {
 
 const InfoCard = ({ title, children }: Props) => {
   return (
-    <Box>
+    <Box boxShadow={BoxShadow.light} borderRadius="8px" overflow="hidden">
       <SectionTitle title={title} />
-      <Flex flexDirection="column" gap="16px">
+      <Flex flexDirection="column" gap="16px" p="8px">
         {children}
       </Flex>
     </Box>
