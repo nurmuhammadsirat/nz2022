@@ -1,13 +1,14 @@
-import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faAirbnb, IconDefinition } from '@fortawesome/free-brands-svg-icons';
-import { faCampground, faFileLines, faHotel, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faCampground, faHotel } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Colors, Fonts } from '../../../styles';
 import { AccomodationType } from '../../../types';
 import { Accomodation } from '../../../types';
-import { handleLinkOpen } from '../../../utils';
+import GoogleMapsButton from './GoogleMapsButton';
+import PdfButton from './PdfButton';
 
 type AccomodationMetadataType = {
   [key in AccomodationType]: {
@@ -56,7 +57,7 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
   return (
     <Box w="100%">
       <Flex justifyContent="space-between" alignItems="center">
-        <AccomodationName
+        <Name
           header={AccomodationMetadata[type].header}
           headerColor={AccomodationMetadata[type].color}
           name={accomodation.name}
@@ -82,7 +83,7 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
   );
 };
 
-const AccomodationName = (props: { header: string; headerColor: string; name: string; icon?: IconProp }) => (
+const Name = (props: { header: string; headerColor: string; name: string; icon?: IconProp }) => (
   <Box>
     <Text as="i" fontSize="sm" fontWeight="bold" color={props.headerColor}>
       {props.header}
@@ -101,24 +102,8 @@ const ConfirmationID = (props: { confirmationId: string; url: string; color: str
       </Text>
       <Text fontSize="sm">{props.confirmationId}</Text>
     </Box>
-    <IconButton
-      w="40px"
-      h="40px"
-      colorScheme="gray"
-      aria-label="PDF"
-      icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(props.url)} />}
-    />
+    <PdfButton url={props.url} />
   </Flex>
-);
-
-const GoogleMapsButton = (props: { url: string }) => (
-  <IconButton
-    w="40px"
-    h="40px"
-    colorScheme="blue"
-    aria-label="Google Maps"
-    icon={<FontAwesomeIcon icon={faMapLocationDot} onClick={() => handleLinkOpen(props.url)} />}
-  />
 );
 
 export default AccomodationInfo;

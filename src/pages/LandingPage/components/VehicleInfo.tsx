@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
   Text,
 } from '@chakra-ui/react';
-import { faMapLocationDot, faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import suvAce from '../../../assets/ace-intermediate-suv.jpg';
@@ -21,6 +21,7 @@ import { Colors } from '../../../styles';
 import { Vehicle, VehicleType } from '../../../types';
 import { headerTitle, headerValue } from '../../../utils';
 import { handleLinkOpen } from '../../../utils/index';
+import PdfButton from './PdfButton';
 
 type Props = {
   vehicle: Vehicle;
@@ -92,7 +93,7 @@ const VehicleInfo = ({ vehicle, type, isPickingUpOrDroppingOffVehicleToday }: Pr
                 onClick={() => handleLinkOpen(vehicleTypes[type].locationGMapsUrl(vehicle))}
               />
               <PickUpTime type={type} vehicle={vehicle} />
-              <ConfirmationId confirmationId={vehicle.confirmationID} onClick={() => handleLinkOpen(vehicle.url)} />
+              <ConfirmationId confirmationId={vehicle.confirmationID} url={vehicle.url} />
             </PopoverBody>
           </PopoverContent>
         )}
@@ -131,19 +132,13 @@ const PickUpTime = (props: { type: VehicleType; vehicle: Vehicle }) => (
   </Box>
 );
 
-const ConfirmationId = (props: { confirmationId: string; onClick: () => void }) => (
+const ConfirmationId = (props: { confirmationId: string; url: string }) => (
   <Flex justifyContent="space-between" alignItems="center">
     <Box>
       {headerTitle('Confirmation ID', Colors.trafficLight.green)}
       {headerValue(props.confirmationId)}
     </Box>
-    <IconButton
-      w="40px"
-      h="40px"
-      colorScheme="whiteAlpha"
-      aria-label="PDF"
-      icon={<FontAwesomeIcon icon={faFileLines} onClick={props.onClick} />}
-    />
+    <PdfButton url={props.url} />
   </Flex>
 );
 
