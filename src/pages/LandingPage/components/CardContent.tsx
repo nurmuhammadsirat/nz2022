@@ -109,7 +109,7 @@ const CardContent = ({
 };
 
 const SectionTitle = (props: { title: string }) => (
-  <Box backgroundColor={Colors.dateBackground} color="#FFF" textAlign="center" p="4px">
+  <Box backgroundColor={Colors.sectionTitle.background} color={Colors.sectionTitle.text} textAlign="center" p="4px">
     <Text fontSize="22px" fontWeight="800">
       {props.title}
     </Text>

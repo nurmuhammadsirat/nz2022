@@ -3,7 +3,24 @@ export default {
   headerText: '#E4F9F5',
   cardBackground: '#FFFFFF',
   altCardBackground: '#EAF6F6',
-  dateBackground: '#11999E',
+  sectionTitle: {
+    background: '#11999E',
+    text: '#FFFFFF',
+  },
+  calendar: {
+    month: {
+      background: '#EB1D36',
+      text: '#FFFFFF',
+    },
+    date: {
+      background: '#FFFFFF',
+      text: '#000000',
+    },
+    day: {
+      background: '#FFFFFF',
+      text: '#EB1D36',
+    },
+  },
   infoTitle: '#9C9EFE',
   border: '#DFDFDE',
   trafficLight: {

@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import { Vehicle } from '../../../types';
-import DateBubble from './DateBubble';
+import Calendar from './Calendar';
 import VeciclesAndFlight from './VeciclesAndFlight';
 
 type Props = {
@@ -35,8 +35,8 @@ const Sidebar = ({ date, vehicles, hasFlight }: Props) => {
   );
 
   return (
-    <Flex flexDirection="column" justifyContent="flex-start" h="100%" w="90px">
-      <DateBubble date={date} />
+    <Flex flexDirection="column" justifyContent="flex-start" h="100%" w="80px" gap="20px">
+      <Calendar date={date} />
       <VeciclesAndFlight
         date={date}
         hasFlight={hasFlight}
