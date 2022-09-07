@@ -1,4 +1,5 @@
 import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faAirbnb, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { faCampground, faFileLines, faHotel, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -55,26 +56,13 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
   return (
     <Box w="100%">
       <Flex justifyContent="space-between" alignItems="center">
-        <Box>
-          <Text as="i" fontSize="sm" fontWeight="bold" color={AccomodationMetadata[type].color}>
-            {AccomodationMetadata[type].header}
-          </Text>
-
-          <Text fontFamily={Fonts.noto}>
-            <FontAwesomeIcon icon={iconType[accomodation.type] || faHotel} /> {accomodation.name}
-          </Text>
-        </Box>
-        {isCurrentlyAt && (
-          <IconButton
-            w="40px"
-            h="40px"
-            colorScheme="blue"
-            aria-label="Google Maps"
-            icon={
-              <FontAwesomeIcon icon={faMapLocationDot} onClick={() => handleLinkOpen(accomodation.googleMapsUrl)} />
-            }
-          />
-        )}
+        <AccomodationName
+          header={AccomodationMetadata[type].header}
+          headerColor={AccomodationMetadata[type].color}
+          name={accomodation.name}
+          icon={iconType[accomodation.type]}
+        />
+        {isCurrentlyAt && <GoogleMapsButton url={accomodation.googleMapsUrl} />}
       </Flex>
       <Flex
         justifyContent={AccomodationMetadata[type].showConfirmationId ? 'space-between' : 'flex-end'}
@@ -82,36 +70,55 @@ const AccomodationInfo = ({ accomodation, type }: Props) => {
         mt="8px"
       >
         {AccomodationMetadata[type].showConfirmationId && (
-          <Flex alignItems="center" gap="8px">
-            <Box>
-              <Text as="i" fontSize="sm" fontWeight="bold" color={AccomodationMetadata[type].color}>
-                Confirmation ID
-              </Text>
-              <Text fontSize="sm">{accomodation.confirmationID}</Text>
-            </Box>
-            <IconButton
-              w="40px"
-              h="40px"
-              colorScheme="gray"
-              aria-label="PDF"
-              icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(accomodation.url)} />}
-            />
-          </Flex>
-        )}
-        {isCheckingIn && (
-          <IconButton
-            w="40px"
-            h="40px"
-            colorScheme="blue"
-            aria-label="Google Maps"
-            icon={
-              <FontAwesomeIcon icon={faMapLocationDot} onClick={() => handleLinkOpen(accomodation.googleMapsUrl)} />
-            }
+          <ConfirmationID
+            confirmationId={accomodation.confirmationID}
+            url={accomodation.url}
+            color={AccomodationMetadata[type].color}
           />
         )}
+        {isCheckingIn && <GoogleMapsButton url={accomodation.googleMapsUrl} />}
       </Flex>
     </Box>
   );
 };
+
+const AccomodationName = (props: { header: string; headerColor: string; name: string; icon?: IconProp }) => (
+  <Box>
+    <Text as="i" fontSize="sm" fontWeight="bold" color={props.headerColor}>
+      {props.header}
+    </Text>
+    <Text fontFamily={Fonts.noto}>
+      <FontAwesomeIcon icon={props.icon || faHotel} /> {props.name}
+    </Text>
+  </Box>
+);
+
+const ConfirmationID = (props: { confirmationId: string; url: string; color: string }) => (
+  <Flex alignItems="center" gap="8px">
+    <Box>
+      <Text as="i" fontSize="sm" fontWeight="bold" color={props.color}>
+        Confirmation ID
+      </Text>
+      <Text fontSize="sm">{props.confirmationId}</Text>
+    </Box>
+    <IconButton
+      w="40px"
+      h="40px"
+      colorScheme="gray"
+      aria-label="PDF"
+      icon={<FontAwesomeIcon icon={faFileLines} onClick={() => handleLinkOpen(props.url)} />}
+    />
+  </Flex>
+);
+
+const GoogleMapsButton = (props: { url: string }) => (
+  <IconButton
+    w="40px"
+    h="40px"
+    colorScheme="blue"
+    aria-label="Google Maps"
+    icon={<FontAwesomeIcon icon={faMapLocationDot} onClick={() => handleLinkOpen(props.url)} />}
+  />
+);
 
 export default AccomodationInfo;
