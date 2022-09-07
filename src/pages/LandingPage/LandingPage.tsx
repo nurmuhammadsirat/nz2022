@@ -60,7 +60,7 @@ const LandingPage = () => {
 
   const renderedContent = useMemo(() => {
     if (isFetchingGoogleData) {
-      return <SpinnerPage />;
+      return <SpinnerPage height={`calc(100vh - ${HEADERHEIGHT})`} />;
     }
 
     if (error) {
