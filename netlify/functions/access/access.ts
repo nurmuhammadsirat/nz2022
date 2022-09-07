@@ -7,14 +7,6 @@ const compareCodes = (accessCode: string | undefined, userCode: string | undefin
     return false;
   }
 
-  // eslint-disable-next-line no-console
-  console.log(
-    'Checking access code accessCode, userCode, accessCode === userCode',
-    accessCode,
-    userCode,
-    accessCode === userCode,
-  );
-
   return accessCode === userCode;
 };
 
