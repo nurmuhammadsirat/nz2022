@@ -1,8 +1,6 @@
 import { Alert, AlertIcon } from '@chakra-ui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 
-const HOURLY = 1000 * 60 * 60;
-
 type Props = {
   firstDayDate: string;
 };
@@ -12,17 +10,11 @@ const Countdown = ({ firstDayDate }: Props) => {
   const [days, setDays] = useState(-1);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const tripDate = Date.parse(firstDayDate);
-      const now = Date.now();
-      const dateDiff = new Date(tripDate - now);
-      setMonths(dateDiff.getUTCMonth());
-      setDays(dateDiff.getUTCDate() - 1);
-    }, HOURLY);
-
-    return () => {
-      clearInterval(timer);
-    };
+    const tripDate = Date.parse(firstDayDate);
+    const now = Date.now();
+    const dateDiff = new Date(tripDate - now);
+    setMonths(dateDiff.getUTCMonth());
+    setDays(dateDiff.getUTCDate() - 1);
   }, [firstDayDate]);
 
   const text = useMemo(() => {
