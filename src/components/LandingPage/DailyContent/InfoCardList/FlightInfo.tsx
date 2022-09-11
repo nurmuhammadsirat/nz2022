@@ -2,9 +2,9 @@ import { Box, Text, Flex } from '@chakra-ui/react';
 import { faPlaneDeparture, faPlaneArrival } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useMemo } from 'react';
-import { Colors } from '../../../styles';
-import { Flight } from '../../../types';
-import { headerTitle } from '../../../utils';
+import { Colors } from '../../../../styles';
+import { Flight } from '../../../../types';
+import { headerTitle } from '../../../../utils';
 
 type Props = {
   flight: Flight;

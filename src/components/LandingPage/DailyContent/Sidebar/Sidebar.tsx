@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { Vehicle } from '../../../types';
+import { Vehicle } from '../../../../types';
 import Calendar from './Calendar';
 import VeciclesAndFlight from './VeciclesAndFlight';
 

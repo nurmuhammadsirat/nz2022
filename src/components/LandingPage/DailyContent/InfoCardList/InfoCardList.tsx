@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useCallback, useMemo } from 'react';
-import { AccomodationType, Activity, Flight, Section } from '../../../types';
-import { Accomodation } from '../../../types';
+import { AccomodationType, Activity, Flight, Section } from '../../../../types';
+import { Accomodation } from '../../../../types';
 import AccomodationDivider from './AccomodationDivider';
 import AccomodationInfo from './AccomodationInfo';
 import ActivityInfo from './ActivityInfo';

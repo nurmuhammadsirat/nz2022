@@ -2,8 +2,8 @@ import { Flex } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
 import { Colors } from '../../../styles';
 import { Accomodation, Activity, Flight, Vehicle } from '../../../types';
-import InfoCardList from './InfoCardList';
-import Sidebar from './Sidebar';
+import InfoCardList from './InfoCardList/InfoCardList';
+import { Sidebar } from './Sidebar';
 
 type Props = {
   date: string;

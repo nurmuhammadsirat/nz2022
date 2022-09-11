@@ -4,11 +4,10 @@ import { faAirbnb, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { faCampground, faHotel } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Colors, Fonts } from '../../../styles';
-import { AccomodationType } from '../../../types';
-import { Accomodation } from '../../../types';
-import GoogleMapsButton from './GoogleMapsButton';
-import PdfButton from './PdfButton';
+import { Colors, Fonts } from '../../../../styles';
+import { AccomodationType } from '../../../../types';
+import { Accomodation } from '../../../../types';
+import { GoogleMapsButton, PdfButton } from '../../../common';
 
 type AccomodationMetadataType = {
   [key in AccomodationType]: {

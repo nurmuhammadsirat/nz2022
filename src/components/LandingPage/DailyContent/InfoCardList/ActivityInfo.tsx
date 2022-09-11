@@ -2,10 +2,10 @@ import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Fonts } from '../../../styles';
-import { Activity } from '../../../types';
-import { handleLinkOpen } from '../../../utils';
-import GoogleMapsButton from './GoogleMapsButton';
+import { Fonts } from '../../../../styles';
+import { Activity } from '../../../../types';
+import { handleLinkOpen } from '../../../../utils';
+import { GoogleMapsButton } from '../../../common';
 
 type Props = {
   activity: Activity;

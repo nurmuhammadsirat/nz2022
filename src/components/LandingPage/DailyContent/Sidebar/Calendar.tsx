@@ -1,6 +1,6 @@
 import { Box, Flex, Center } from '@chakra-ui/react';
 import React, { ReactNode, useMemo } from 'react';
-import { BoxShadow, Colors } from '../../../styles';
+import { BoxShadow, Colors } from '../../../../styles';
 
 type Props = {
   date: string;

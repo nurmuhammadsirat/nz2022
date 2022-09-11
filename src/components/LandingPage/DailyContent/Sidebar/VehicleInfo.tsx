@@ -14,14 +14,14 @@ import {
 import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import suvAce from '../../../assets/ace-intermediate-suv.jpg';
-import suvHertz from '../../../assets/hertz-intermediate-suv.jpg';
-import campervan from '../../../assets/maui-4-berth-beach.jpg';
-import { Colors } from '../../../styles';
-import { Vehicle, VehicleType } from '../../../types';
-import { headerTitle, headerValue } from '../../../utils';
-import { handleLinkOpen } from '../../../utils/index';
-import PdfButton from './PdfButton';
+import suvAce from '../../../../assets/ace-intermediate-suv.jpg';
+import suvHertz from '../../../../assets/hertz-intermediate-suv.jpg';
+import campervan from '../../../../assets/maui-4-berth-beach.jpg';
+import { Colors } from '../../../../styles';
+import { Vehicle, VehicleType } from '../../../../types';
+import { headerTitle, headerValue } from '../../../../utils';
+import { handleLinkOpen } from '../../../../utils/index';
+import { PdfButton } from '../../../common';
 
 type Props = {
   vehicle: Vehicle;

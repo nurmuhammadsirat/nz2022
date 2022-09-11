@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
-import backgroundImage from '../../../assets/negative-space-truck-road-mountains.jpg';
-import { Colors } from '../../../styles';
+import backgroundImage from '../../assets/negative-space-truck-road-mountains.jpg';
+import { Colors } from '../../styles';
 
 type Props = {
   height: string;

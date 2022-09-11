@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React, { ReactNode } from 'react';
-import { BoxShadow, Colors } from '../../../styles';
-import { Section } from '../../../types';
+import { BoxShadow, Colors } from '../../../../styles';
+import { Section } from '../../../../types';
 
 type Props = {
   title: Section;

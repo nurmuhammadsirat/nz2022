@@ -4,7 +4,9 @@ import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
 import { SpinnerPage } from '../SpinnerPage';
-import { Header, DailyContent, Countdown } from './components';
+import Countdown from './Countdown';
+import { DailyContent } from './DailyContent';
+import Header from './Header';
 
 const DATES = [
   '30-Nov-2022',

@@ -2,7 +2,7 @@ import { IconButton } from '@chakra-ui/react';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { handleLinkOpen } from '../../../utils';
+import { handleLinkOpen } from '../../utils';
 
 type Props = {
   url: string;

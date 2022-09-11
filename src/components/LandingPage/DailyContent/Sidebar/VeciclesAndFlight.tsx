@@ -2,7 +2,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import { faPlane, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useMemo } from 'react';
-import { Vehicle, VehicleType } from '../../../types';
+import { Vehicle, VehicleType } from '../../../../types';
 import VecicleDivider from './VecicleDivider';
 import VehicleInfo from './VehicleInfo';
 
