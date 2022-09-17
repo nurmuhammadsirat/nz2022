@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import { Router } from './components';
+import { Main } from './components';
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -9,7 +9,7 @@ const App = () => {
   return (
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
-        <Router />
+        <Main />
       </QueryClientProvider>
     </ChakraProvider>
   );

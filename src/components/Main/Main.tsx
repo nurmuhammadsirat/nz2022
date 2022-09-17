@@ -43,7 +43,7 @@ const DATES = [
 const HEADERHEIGHT = 150;
 const FOOTERHEIGHT = 50;
 
-const LandingPage = () => {
+const Main = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
@@ -145,4 +145,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default Main;
