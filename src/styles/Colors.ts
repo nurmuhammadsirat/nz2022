@@ -4,6 +4,8 @@ export default {
   contentBackground: '#FFFFFF',
   headerBackground: '#371B58',
   headerText: '#E4F9F5',
+  footerBackground: '#3F4E4F',
+  footerText: '#FFFFFF',
   cardBackground: '#FFFFFF',
   sectionTitle: {
     [Section.FLIGHT]: { background: '#C21010', text: '#FFFFFF' },

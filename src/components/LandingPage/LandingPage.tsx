@@ -1,11 +1,13 @@
-import { Center, Flex } from '@chakra-ui/react';
-import React, { useMemo, useState } from 'react';
+import { Center, Flex, Button, Box } from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Colors } from '../../styles';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
-import { SpinnerPage } from '../SpinnerPage';
+import { getData, storeData } from '../../utils';
+import { Spinner } from '../common';
 import Countdown from './Countdown';
 import { DailyContent } from './DailyContent';
+import Footer from './Footer';
 import Header from './Header';
 
 const DATES = [
@@ -38,7 +40,8 @@ const DATES = [
   '26-Dec-2022',
 ];
 
-const HEADERHEIGHT = '150px';
+const HEADERHEIGHT = 150;
+const FOOTERHEIGHT = 50;
 
 const LandingPage = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
@@ -46,8 +49,16 @@ const LandingPage = () => {
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
   const [activities, setActivities] = useState<Activity[]>([]);
 
-  const { isFetching: isFetchingGoogleData, error } = useGoogleSheetTrip({
+  const {
+    // data: tripData,
+    isFetching: isFetchingGoogleData,
+    refetch,
+    error,
+  } = useGoogleSheetTrip({
+    enabled: false,
     onSuccess: (data: GoogleSheetTripResponse) => {
+      storeData(data);
+
       setAccomodations(data.accomodations);
       setVehicles(data.vehicles);
       setActivities(data.activities);
@@ -60,41 +71,76 @@ const LandingPage = () => {
     },
   });
 
+  useEffect(() => {
+    const tripData = getData();
+
+    if (tripData) {
+      setAccomodations(tripData.accomodations);
+      setVehicles(tripData.vehicles);
+      setActivities(tripData.activities);
+      // Caveat, this is hardcoded to the order in the google sheet.
+      setFlights({
+        [FlightType.GOING]: [tripData.flights[0], tripData.flights[1]],
+        [FlightType.RETURN]: [tripData.flights[2], tripData.flights[3]],
+      });
+    }
+  }, []);
+
   const renderedContent = useMemo(() => {
+    if (!flights) {
+      return (
+        <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>
+          <Flex flexDirection="column" gap="12px">
+            <Box>No data loaded.</Box>
+            <Button onClick={() => refetch()}>Load Data</Button>
+          </Flex>
+        </Center>
+      );
+    }
+
     if (isFetchingGoogleData) {
-      return <SpinnerPage height={`calc(100vh - ${HEADERHEIGHT})`} />;
+      return <Spinner height={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`} />;
     }
 
     if (error) {
-      return <Center h={`calc(100vh - ${HEADERHEIGHT})`}>An error occurred when loading data.</Center>;
+      return <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>An error occurred when loading data.</Center>;
     }
 
-    return DATES.map(date => {
-      const goingFlights =
-        flights && (date === '30-Nov-2022' || date === '1-Dec-2022') ? flights[FlightType.GOING] : [];
-      const returningFlights = flights && date === '26-Dec-2022' ? flights[FlightType.RETURN] : [];
+    return (
+      <>
+        <Countdown firstDayDate={DATES[0]} />
+        <Flex flexDirection="column" gap="8px" backgroundColor={Colors.contentBackground}>
+          {DATES.map(date => {
+            const goingFlights =
+              flights && (date === '30-Nov-2022' || date === '1-Dec-2022') ? flights[FlightType.GOING] : [];
+            const returningFlights = flights && date === '26-Dec-2022' ? flights[FlightType.RETURN] : [];
 
-      return (
-        <DailyContent
-          key={date}
-          date={date}
-          vehicles={vehicles}
-          accomodations={accomodations}
-          activities={activities}
-          goingFlights={goingFlights}
-          returningFlights={returningFlights}
-        />
-      );
-    });
-  }, [accomodations, activities, error, flights, isFetchingGoogleData, vehicles]);
+            return (
+              <DailyContent
+                key={date}
+                date={date}
+                vehicles={vehicles}
+                accomodations={accomodations}
+                activities={activities}
+                goingFlights={goingFlights}
+                returningFlights={returningFlights}
+              />
+            );
+          })}
+        </Flex>
+      </>
+    );
+  }, [accomodations, activities, flights, vehicles, refetch, isFetchingGoogleData, error]);
+
+  const handleReloadClick = () => {
+    refetch();
+  };
 
   return (
     <>
       <Header height={HEADERHEIGHT} />
-      <Countdown firstDayDate={DATES[0]} />
-      <Flex flexDirection="column" gap="8px" backgroundColor={Colors.contentBackground}>
-        {renderedContent}
-      </Flex>
+      {renderedContent}
+      <Footer height={FOOTERHEIGHT} onReloadClick={handleReloadClick} />
     </>
   );
 };

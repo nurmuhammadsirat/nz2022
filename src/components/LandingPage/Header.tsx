@@ -4,7 +4,7 @@ import backgroundImage from '../../assets/negative-space-truck-road-mountains.jp
 import { Colors } from '../../styles';
 
 type Props = {
-  height: string;
+  height: number;
 };
 
 const Header = ({ height }: Props) => {
@@ -14,7 +14,7 @@ const Header = ({ height }: Props) => {
   };
 
   return (
-    <Box h={height} flexDirection="column" justifyContent="center" {...backgroundImageProps}>
+    <Box h={`${height}px`} flexDirection="column" justifyContent="center" {...backgroundImageProps}>
       <Flex w="100%" h={height} flexDirection="column" justifyContent="center" backgroundColor="rgb(0, 0, 0, 0.4)">
         <Text align="center" fontSize="40px" color={Colors.headerText}>
           New Zealand 2022

@@ -2,14 +2,14 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import useIsAuthorized from '../hooks/useIsAuthorized';
 import { LandingPage } from './LandingPage';
-import { SpinnerPage } from './SpinnerPage';
 import { UnauthorizedPage } from './UnauthorizedPage';
+import { Spinner } from './common';
 
 const Router = () => {
   const { data: isAuthorized, isLoading: isCheckingAuthorization } = useIsAuthorized();
 
   if (isCheckingAuthorization) {
-    return <SpinnerPage />;
+    return <Spinner />;
   }
 
   if (!isAuthorized) {
