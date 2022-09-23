@@ -8,13 +8,15 @@ type Props = {
 };
 
 const Header = ({ height }: Props) => {
-  const backgroundImageProps = {
-    backgroundImage,
-    backgroundPosition: 'center',
-  };
-
   return (
-    <Box h={`${height}px`} flexDirection="column" justifyContent="center" {...backgroundImageProps}>
+    <Box
+      h={`${height}px`}
+      flexDirection="column"
+      justifyContent="center"
+      backgroundImage={backgroundImage}
+      backgroundPosition="center"
+      backgroundSize="cover"
+    >
       <Flex w="100%" h={height} flexDirection="column" justifyContent="center" backgroundColor="rgb(0, 0, 0, 0.4)">
         <Text align="center" fontSize="40px" color={Colors.headerText}>
           New Zealand 2022
