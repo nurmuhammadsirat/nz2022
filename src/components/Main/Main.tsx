@@ -1,53 +1,21 @@
 import { Center, Flex, Button, Box } from '@chakra-ui/react';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
-import { Colors } from '../../styles';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
-import { getData, storeData } from '../../utils';
+import { DATES, FOOTERHEIGHT, getData, HEADERHEIGHT, storeData } from '../../utils';
 import { Spinner } from '../common';
+import ComponentView from './ComponentView';
 import Countdown from './Countdown';
-import { DailyContent } from './DailyContent';
 import Footer from './Footer';
 import Header from './Header';
-
-const DATES = [
-  '30-Nov-2022',
-  '1-Dec-2022',
-  '2-Dec-2022',
-  '3-Dec-2022',
-  '4-Dec-2022',
-  '5-Dec-2022',
-  '6-Dec-2022',
-  '7-Dec-2022',
-  '8-Dec-2022',
-  '9-Dec-2022',
-  '10-Dec-2022',
-  '11-Dec-2022',
-  '12-Dec-2022',
-  '13-Dec-2022',
-  '14-Dec-2022',
-  '15-Dec-2022',
-  '16-Dec-2022',
-  '17-Dec-2022',
-  '18-Dec-2022',
-  '19-Dec-2022',
-  '20-Dec-2022',
-  '21-Dec-2022',
-  '22-Dec-2022',
-  '23-Dec-2022',
-  '24-Dec-2022',
-  '25-Dec-2022',
-  '26-Dec-2022',
-];
-
-const HEADERHEIGHT = 150;
-const FOOTERHEIGHT = 50;
+import TimelineView from './TimelineView';
 
 const Main = () => {
   const [accomodations, setAccomodations] = useState<Accomodation[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [isTimelineView, setIsTimelineView] = useState(false);
 
   const {
     // data: tripData,
@@ -86,61 +54,80 @@ const Main = () => {
     }
   }, []);
 
-  const renderedContent = useMemo(() => {
-    if (!flights) {
-      return (
+  const handleReloadClick = () => {
+    refetch();
+  };
+
+  const handleSwitchChange = () => {
+    setIsTimelineView(!isTimelineView);
+  };
+
+  if (!flights) {
+    return (
+      <WrappedContent isFooterSwitchDisabled>
         <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>
           <Flex flexDirection="column" gap="12px">
             <Box>No data loaded.</Box>
             <Button onClick={() => refetch()}>Load Data</Button>
           </Flex>
         </Center>
-      );
-    }
-
-    if (isFetchingGoogleData) {
-      return <Spinner height={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`} />;
-    }
-
-    if (error) {
-      return <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>An error occurred when loading data.</Center>;
-    }
-
-    return (
-      <>
-        <Countdown firstDayDate={DATES[0]} />
-        <Flex flexDirection="column" gap="8px" backgroundColor={Colors.contentBackground}>
-          {DATES.map(date => {
-            const goingFlights =
-              flights && (date === '30-Nov-2022' || date === '1-Dec-2022') ? flights[FlightType.GOING] : [];
-            const returningFlights = flights && date === '26-Dec-2022' ? flights[FlightType.RETURN] : [];
-
-            return (
-              <DailyContent
-                key={date}
-                date={date}
-                vehicles={vehicles}
-                accomodations={accomodations}
-                activities={activities}
-                goingFlights={goingFlights}
-                returningFlights={returningFlights}
-              />
-            );
-          })}
-        </Flex>
-      </>
+      </WrappedContent>
     );
-  }, [accomodations, activities, flights, vehicles, refetch, isFetchingGoogleData, error]);
+  }
 
-  const handleReloadClick = () => {
-    refetch();
-  };
+  if (isFetchingGoogleData) {
+    return (
+      <WrappedContent isFooterSwitchDisabled>
+        <Spinner height={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`} />
+      </WrappedContent>
+    );
+  }
 
+  if (error) {
+    return (
+      <WrappedContent isFooterSwitchDisabled>
+        <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>An error occurred when loading data.</Center>
+      </WrappedContent>
+    );
+  }
+
+  return (
+    <WrappedContent onReloadClick={handleReloadClick} onSwitchChange={handleSwitchChange}>
+      <Countdown firstDayDate={DATES[0]} />
+      {isTimelineView ? (
+        <TimelineView />
+      ) : (
+        <ComponentView accomodations={accomodations} vehicles={vehicles} flights={flights} activities={activities} />
+      )}
+    </WrappedContent>
+  );
+};
+
+type WrappedContentProps = {
+  children: ReactNode;
+  onReloadClick?: () => void;
+  onSwitchChange?: () => void;
+  isFooterSwitchDisabled?: boolean;
+};
+
+const emptyFunction = () => {};
+
+const WrappedContent = ({
+  children,
+  onReloadClick = emptyFunction,
+  onSwitchChange = emptyFunction,
+  isFooterSwitchDisabled = false,
+}: WrappedContentProps) => {
   return (
     <>
       <Header height={HEADERHEIGHT} />
-      {renderedContent}
-      <Footer height={FOOTERHEIGHT} onReloadClick={handleReloadClick} />
+      {children}
+      <Footer
+        height={FOOTERHEIGHT}
+        onReloadClick={onReloadClick}
+        onSwitchChange={onSwitchChange}
+        isSwitchDisabled={isFooterSwitchDisabled}
+      />
     </>
   );
 };
