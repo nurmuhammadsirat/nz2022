@@ -2,10 +2,9 @@ import { Center, Flex, Button, Box } from '@chakra-ui/react';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
-import { DATES, FOOTERHEIGHT, getData, HEADERHEIGHT, storeData } from '../../utils';
+import { FOOTERHEIGHT, getData, HEADERHEIGHT, storeData } from '../../utils';
 import { Spinner } from '../common';
 import ComponentView from './ComponentView';
-import Countdown from './Countdown';
 import Footer from './Footer';
 import Header from './Header';
 import TimelineView from './TimelineView';
@@ -93,7 +92,6 @@ const Main = () => {
 
   return (
     <WrappedContent onReloadClick={handleReloadClick} onSwitchChange={handleSwitchChange}>
-      <Countdown firstDayDate={DATES[0]} />
       {isTimelineView ? (
         <TimelineView />
       ) : (
@@ -119,16 +117,18 @@ const WrappedContent = ({
   isFooterSwitchDisabled = false,
 }: WrappedContentProps) => {
   return (
-    <>
+    <Box position="relative">
       <Header height={HEADERHEIGHT} />
-      {children}
+      <Box maxW="400px" m="0 auto">
+        {children}
+      </Box>
       <Footer
         height={FOOTERHEIGHT}
         onReloadClick={onReloadClick}
         onSwitchChange={onSwitchChange}
         isSwitchDisabled={isFooterSwitchDisabled}
       />
-    </>
+    </Box>
   );
 };
 
