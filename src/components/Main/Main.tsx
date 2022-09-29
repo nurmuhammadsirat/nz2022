@@ -1,5 +1,6 @@
-import { Center, Flex, Button, Box } from '@chakra-ui/react';
+import { Center, Flex, Button, Box, Slide } from '@chakra-ui/react';
 import React, { ReactNode, useEffect, useState } from 'react';
+import { useScrollDirection } from 'react-use-scroll-direction';
 import { useGoogleSheetTrip } from '../../hooks';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
 import { FOOTERHEIGHT, getData, HEADERHEIGHT, storeData } from '../../utils';
@@ -116,18 +117,40 @@ const WrappedContent = ({
   onSwitchChange = emptyFunction,
   isFooterSwitchDisabled = false,
 }: WrappedContentProps) => {
+  const [isFooterShown, setIsFooterShown] = useState(true);
+
+  const { isScrollingDown } = useScrollDirection();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isScrollingDown) {
+        setIsFooterShown(false);
+      } else {
+        setIsFooterShown(true);
+      }
+    };
+
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [isScrollingDown]);
+
   return (
     <Box position="relative">
       <Header height={HEADERHEIGHT} />
-      <Box maxW="400px" m="0 auto">
+      <Box maxW="400px" m="0 auto" paddingBottom="70px">
         {children}
       </Box>
-      <Footer
-        height={FOOTERHEIGHT}
-        onReloadClick={onReloadClick}
-        onSwitchChange={onSwitchChange}
-        isSwitchDisabled={isFooterSwitchDisabled}
-      />
+      <Slide direction="bottom" in={isFooterShown}>
+        <Footer
+          height={FOOTERHEIGHT}
+          onReloadClick={onReloadClick}
+          onSwitchChange={onSwitchChange}
+          isSwitchDisabled={isFooterSwitchDisabled}
+        />
+      </Slide>
     </Box>
   );
 };
