@@ -1,9 +1,10 @@
 import { Center, Flex, Button, Box, Slide } from '@chakra-ui/react';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useScrollDirection } from 'react-use-scroll-direction';
 import { useGoogleSheetTrip } from '../../hooks';
+import useIsMobile from '../../hooks/useIsMobile';
 import { Accomodation, Activity, Flights, FlightType, GoogleSheetTripResponse, Vehicle } from '../../types';
-import { FOOTERHEIGHT, getData, HEADERHEIGHT, storeData } from '../../utils';
+import { FOOTERHEIGHT, FOOTERMOBILEHEIGHT, getData, HEADERHEIGHT, storeData } from '../../utils';
 import { Spinner } from '../common';
 import ComponentView from './ComponentView';
 import Footer from './Footer';
@@ -16,6 +17,8 @@ const Main = () => {
   const [flights, setFlights] = useState<Flights | undefined>(undefined);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [isTimelineView, setIsTimelineView] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const {
     // data: tripData,
@@ -54,6 +57,8 @@ const Main = () => {
     }
   }, []);
 
+  const footerHeight = useMemo(() => (isMobile ? FOOTERMOBILEHEIGHT : FOOTERHEIGHT), [isMobile]);
+
   const handleReloadClick = () => {
     refetch();
   };
@@ -64,8 +69,8 @@ const Main = () => {
 
   if (!flights) {
     return (
-      <WrappedContent isFooterSwitchDisabled>
-        <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>
+      <WrappedContent footerHeight={footerHeight} isFooterSwitchDisabled>
+        <Center h={`calc(100vh - ${HEADERHEIGHT + footerHeight}px)`}>
           <Flex flexDirection="column" gap="12px">
             <Box>No data loaded.</Box>
             <Button onClick={() => refetch()}>Load Data</Button>
@@ -77,22 +82,22 @@ const Main = () => {
 
   if (isFetchingGoogleData) {
     return (
-      <WrappedContent isFooterSwitchDisabled>
-        <Spinner height={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`} />
+      <WrappedContent footerHeight={footerHeight} isFooterSwitchDisabled>
+        <Spinner height={`calc(100vh - ${HEADERHEIGHT + footerHeight}px)`} />
       </WrappedContent>
     );
   }
 
   if (error) {
     return (
-      <WrappedContent isFooterSwitchDisabled>
-        <Center h={`calc(100vh - ${HEADERHEIGHT + FOOTERHEIGHT}px)`}>An error occurred when loading data.</Center>
+      <WrappedContent footerHeight={footerHeight} isFooterSwitchDisabled>
+        <Center h={`calc(100vh - ${HEADERHEIGHT + footerHeight}px)`}>An error occurred when loading data.</Center>
       </WrappedContent>
     );
   }
 
   return (
-    <WrappedContent onReloadClick={handleReloadClick} onSwitchChange={handleSwitchChange}>
+    <WrappedContent footerHeight={footerHeight} onReloadClick={handleReloadClick} onSwitchChange={handleSwitchChange}>
       {isTimelineView ? (
         <TimelineView />
       ) : (
@@ -104,6 +109,7 @@ const Main = () => {
 
 type WrappedContentProps = {
   children: ReactNode;
+  footerHeight: number;
   onReloadClick?: () => void;
   onSwitchChange?: () => void;
   isFooterSwitchDisabled?: boolean;
@@ -113,6 +119,7 @@ const emptyFunction = () => {};
 
 const WrappedContent = ({
   children,
+  footerHeight,
   onReloadClick = emptyFunction,
   onSwitchChange = emptyFunction,
   isFooterSwitchDisabled = false,
@@ -145,7 +152,7 @@ const WrappedContent = ({
       </Box>
       <Slide direction="bottom" in={isFooterShown}>
         <Footer
-          height={FOOTERHEIGHT}
+          height={footerHeight}
           onReloadClick={onReloadClick}
           onSwitchChange={onSwitchChange}
           isSwitchDisabled={isFooterSwitchDisabled}

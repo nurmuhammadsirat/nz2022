@@ -39,6 +39,7 @@ export const DATES = [
 
 export const HEADERHEIGHT = 150;
 export const FOOTERHEIGHT = 50;
+export const FOOTERMOBILEHEIGHT = 80;
 
 export const getAccessCode = (): string => {
   return localStorage.getItem(KEY_ACCESSCODE) || '';

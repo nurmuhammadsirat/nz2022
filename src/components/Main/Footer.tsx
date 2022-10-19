@@ -3,6 +3,7 @@ import { Box, Center, Flex, FormControl, FormLabel, Switch } from '@chakra-ui/re
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import useIsMobile from '../../hooks/useIsMobile';
 import { Colors } from '../../styles';
 
 type Props = {
@@ -13,6 +14,8 @@ type Props = {
 };
 
 const Footer = ({ height, onReloadClick, onSwitchChange, isSwitchDisabled = false }: Props) => {
+  const isMobile = useIsMobile();
+
   return (
     <Flex
       justifyContent="space-between"
@@ -22,7 +25,7 @@ const Footer = ({ height, onReloadClick, onSwitchChange, isSwitchDisabled = fals
       bottom="0"
       backgroundColor={Colors.footerBackground}
       color={Colors.footerText}
-      p="0 20px"
+      p={isMobile ? '0 20px 30px' : '0 20px '}
     >
       <FormControl display="flex" alignItems="center" w="50%">
         <FormLabel htmlFor="switch-view" mb="3px" fontSize="sm">
