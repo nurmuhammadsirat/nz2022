@@ -17,8 +17,8 @@ const ComponentView = ({ accomodations, vehicles, flights, activities }: Props) 
     <Flex flexDirection="column" gap="8px" backgroundColor={Colors.contentBackground}>
       {DATES.map(date => {
         const goingFlights =
-          flights && (date === '30-Nov-2022' || date === '1-Dec-2022') ? flights[FlightType.GOING] : [];
-        const returningFlights = flights && date === '26-Dec-2022' ? flights[FlightType.RETURN] : [];
+          flights && (date === 'November 30, 2022' || date === 'December 1, 2022') ? flights[FlightType.GOING] : [];
+        const returningFlights = flights && date === 'December 26, 2022' ? flights[FlightType.RETURN] : [];
 
         return (
           <DailyContent

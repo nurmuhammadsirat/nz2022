@@ -25,7 +25,10 @@ const InfoCardList = ({
   goingFlights,
   returningFlights,
 }: Props) => {
-  const isCheckingIn = useMemo(() => date === checkInAccomodation?.checkIn, [checkInAccomodation, date]);
+  const isCheckingIn = useMemo(
+    () => Date.parse(date) === Date.parse(checkInAccomodation?.checkIn || ''),
+    [checkInAccomodation, date],
+  );
 
   const renderFlights = useCallback(
     (flights: Flight[]) =>
