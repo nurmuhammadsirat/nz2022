@@ -15,9 +15,9 @@ const googleSheet = {
   spreadsheetId: '1s6PXdY6Qw4sEHBfTZH_xdXcolmzjnrbVAFhqozP6zmw',
   ranges: [
     ['Accomodation', 'Accomodation!A1:L13'],
-    ['Vehicle', 'Vehicle!A1:N4'],
+    ['Vehicle', 'Vehicle!A1:O4'],
     ['Flight', 'Flight!A1:K5'],
-    ['Activity', 'Activity!A1:H5'],
+    ['Activity', 'Activity!A1:H30'],
   ],
 };
 
